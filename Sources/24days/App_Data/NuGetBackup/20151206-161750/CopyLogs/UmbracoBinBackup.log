@@ -1,0 +1,37 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Sunday, December 6, 2015 4:17:50 PM
+   Source : D:\development\24days\24days\bin\
+     Dest : D:\development\24days\24days\App_Data\NuGetBackup\20151206-161750\bin\
+
+    Files : *.*
+	    
+  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	                   7	D:\development\24days\24days\bin\
+	    New File  		   45416	Microsoft.Web.Infrastructure.dll  0%  100%  
+	    New File  		  139472	System.Web.Helpers.dll  0%   93%  100%  
+	    New File  		  538320	System.Web.Mvc.dll  0%   48%   97%  100%  
+	    New File  		  271056	System.Web.Razor.dll  0%   48%   96%  100%  
+	    New File  		   41680	System.Web.Webpages.Deployment.dll  0%  100%  
+	    New File  		  207568	System.Web.Webpages.dll  0%   63%  100%  
+	    New File  		   39632	System.Web.Webpages.Razor.dll  0%  100%  
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :         1         0         0         0         0         0
+   Files :         7         7         0         0         0         0
+   Bytes :    1.22 m    1.22 m         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :           427714666 Bytes/sec.
+   Speed :           24474.029 MegaBytes/min.
+   Ended : Sunday, December 6, 2015 4:17:50 PM
+

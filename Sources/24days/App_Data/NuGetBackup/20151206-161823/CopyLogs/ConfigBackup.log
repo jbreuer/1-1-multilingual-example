@@ -1,0 +1,67 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Sunday, December 6, 2015 4:18:23 PM
+   Source : D:\development\24days\24days\Config\
+     Dest : D:\development\24days\24days\App_Data\NuGetBackup\20151206-161823\Config\
+
+    Files : *.*
+	    
+  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	                  18	D:\development\24days\24days\Config\
+	    New File  		     305	404handlers.config  0%  100%  
+	    New File  		     681	applications.config  0%  100%  
+	    New File  		     739	BaseRestExtensions.config  0%  100%  
+	    New File  		    3981	ClientDependency.config  0%  100%  
+	    New File  		    2367	Dashboard.config  0%  100%  
+	    New File  		    7088	EmbeddedMedia.config  0%  100%  
+	    New File  		    1302	ExamineIndex.config  0%  100%  
+	    New File  		    1833	ExamineSettings.config  0%  100%  
+	    New File  		     429	feedProxy.config  0%  100%  
+	    New File  		     286	FileSystemProviders.config  0%  100%  
+	    New File  		    1025	grid.editors.config.js  0%  100%  
+	    New File  		    1114	log4net.config  0%  100%  
+	    New File  		      72	metablogConfig.config  0%  100%  
+	    New File  		     837	scripting.config  0%  100%  
+	    New File  		   12288	tinyMceConfig.config  0%  100%  
+	    New File  		    5787	trees.config  0%  100%  
+	    New File  		    8779	umbracoSettings.config  0%  100%  
+	    New File  		    1337	UrlRewriting.config  0%  100%  
+	  New Dir         18	D:\development\24days\24days\Config\Lang\
+	    New File  		      81	cs-CZ.user.xml  0%  100%  
+	    New File  		      79	da-DK.user.xml  0%  100%  
+	    New File  		      79	de-DE.user.xml  0%  100%  
+	    New File  		      79	en-GB.user.xml  0%  100%  
+	    New File  		      79	en-US.user.xml  0%  100%  
+	    New File  		      79	es-ES.user.xml  0%  100%  
+	    New File  		      79	fr-FR.user.xml  0%  100%  
+	    New File  		      82	he-IL.user.xml  0%  100%  
+	    New File  		      82	it-IT.user.xml  0%  100%  
+	    New File  		      79	ja-JP.user.xml  0%  100%  
+	    New File  		      82	ko-KR.user.xml  0%  100%  
+	    New File  		      82	nb-NO.user.xml  0%  100%  
+	    New File  		      79	nl-NL.user.xml  0%  100%  
+	    New File  		      82	pl-PL.user.xml  0%  100%  
+	    New File  		      82	pt-BR.user.xml  0%  100%  
+	    New File  		      79	ru-RU.user.xml  0%  100%  
+	    New File  		      82	sv-SE.user.xml  0%  100%  
+	    New File  		      78	zh-CN.user.xml  0%  100%  
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :         2         1         0         0         0         0
+   Files :        36        36         0         0         0         0
+   Bytes :    50.4 k    50.4 k         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :             3692428 Bytes/sec.
+   Speed :             211.282 MegaBytes/min.
+   Ended : Sunday, December 6, 2015 4:18:23 PM
+
