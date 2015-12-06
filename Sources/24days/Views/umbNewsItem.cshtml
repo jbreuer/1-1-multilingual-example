@@ -10,6 +10,7 @@
         : CurrentPage.Title;
 
     var newsItem = Model.Content as UmbNewsItem;
+    var newsDetached = newsItem.News;
 }
 <div id="main-wrapper">
     <div id="main" class="container">
@@ -27,8 +28,8 @@
                                 <span class="image image-full"><img src="@CurrentPage.Image" alt="" /></span>
                             }
 
-                            <h3>@newsItem.News.Subheader</h3>
-                            @newsItem.News.BodyText
+                            <h3>@newsDetached.Subheader</h3>
+                            @newsDetached.BodyText
                         </section>                           
                     </article>
                     <!-- /Content -->
