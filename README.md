@@ -6,4 +6,5 @@ It has a Visual Studio project which you can build. After that just start the we
 Backoffice credentials:
 
 Username: admin
+
 Password: testtest
