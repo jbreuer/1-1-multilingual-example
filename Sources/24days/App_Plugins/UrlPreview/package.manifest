@@ -1,0 +1,16 @@
+{
+    propertyEditors: [      
+        {
+            alias: "UrlPreview",
+            name: "Url Preview",
+            editor: {
+                view: "~/App_Plugins/UrlPreview/urlpreview.html"
+            }
+        }
+    ],
+	javascript: [
+		'~/App_Plugins/UrlPreview/urlpreview.interceptor.js',
+        '~/App_Plugins/UrlPreview/urlpreview.controller.js',
+		'~/App_Plugins/UrlPreview/urlpreview.resource.js'
+    ]
+}

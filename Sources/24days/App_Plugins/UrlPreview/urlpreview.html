@@ -1,0 +1,12 @@
+<div class="umb-editor" ng-controller="UrlPreviewController">
+
+    <ul class="nav nav-stacked">
+        <li ng-repeat="url in urls" class="ng-scope">
+            <a href="{{url}}" prevent-default="false" target="_blank">
+                <i ng-class="value.icon" class="icon-out"></i>
+                <span class="ng-scope ng-binding">{{url}}</span>
+            </a>
+        </li>
+    </ul>
+
+</div>

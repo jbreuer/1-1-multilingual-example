@@ -330,6 +330,10 @@
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.doctypepicker.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
+    <Content Include="App_Plugins\UrlPreview\urlpreview.controller.js" />
+    <Content Include="App_Plugins\UrlPreview\urlpreview.html" />
+    <Content Include="App_Plugins\UrlPreview\urlpreview.interceptor.js" />
+    <Content Include="App_Plugins\UrlPreview\urlpreview.resource.js" />
     <Content Include="App_Plugins\Vorto\css\vorto.css" />
     <Content Include="App_Plugins\Vorto\js\jquery.cookie.js" />
     <Content Include="App_Plugins\Vorto\js\jquery.hoverIntent.minified.js" />
@@ -2898,6 +2902,7 @@
     <Content Include="Views\umbNewsOverview.cshtml" />
     <Content Include="Views\umbTextPage.cshtml" />
     <Content Include="App_Plugins\NestedContent\package.manifest" />
+    <Content Include="App_Plugins\UrlPreview\package.manifest" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
