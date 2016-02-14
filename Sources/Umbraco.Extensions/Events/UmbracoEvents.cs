@@ -33,6 +33,10 @@ namespace Umbraco.Extensions.Events
         {
             // With the url providers we can change node urls.
             UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, MultilingualUrlProvider>();
+
+            // Remove the DefaultUrlProvider because our MultilingualUrlProvider should take care of all the urls.
+            // This only works if there are domains assigned to the home node.
+            UrlProviderResolver.Current.RemoveType<DefaultUrlProvider>();
         }
     }
 }
