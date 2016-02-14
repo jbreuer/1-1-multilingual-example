@@ -46,15 +46,6 @@ namespace Umbraco.Extensions.Models
 		}
 
 		///<summary>
-		///Content
-		///</summary>
-		[ImplementPropertyType("bodyText")]
-		public IHtmlString BodyText
-		{
-			get { return this.GetPropertyValue<IHtmlString>("bodyText"); }
-		}
-
-		///<summary>
 		///Image
 		///</summary>
 		[ImplementPropertyType("image")]
@@ -71,15 +62,6 @@ namespace Umbraco.Extensions.Models
 		public DateTime PublishDate
 		{
 			get { return this.GetPropertyValue<DateTime>("publishDate"); }
-		}
-
-		///<summary>
-		///Subheader
-		///</summary>
-		[ImplementPropertyType("subheader")]
-		public string Subheader
-		{
-			get { return this.GetPropertyValue<string>("subheader"); }
 		}
 	}
 }

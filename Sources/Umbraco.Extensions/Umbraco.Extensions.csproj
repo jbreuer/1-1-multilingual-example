@@ -300,14 +300,8 @@
   <ItemGroup>
     <Compile Include="Models\Builder.cs">
       <Generator>ZbuModelsBuilder</Generator>
-      <LastGenOutput>Builder.generated.cs</LastGenOutput>
     </Compile>
-    <Compile Include="Models\Builder.generated.cs">
-      <DependentUpon>Builder.cs</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
+    <Compile Include="Models\UmbMaster.cs" />
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>
