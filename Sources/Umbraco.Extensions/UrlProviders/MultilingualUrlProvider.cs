@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
 
     using Umbraco.Core;
     using Umbraco.Extensions.Models;
@@ -38,25 +39,25 @@
 
             if (content != null)
             {
-                if (!UmbracoContext.Current.IsFrontEndUmbracoRequest)
+                var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
+                if (domains.Any())
                 {
-                    var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
-                    if (domains.Any())
+                    var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+
+                    // On the frontend get the domain that matches the current culture. 
+                    // Otherwise just get the first domain. The urls for the other domains are generated in the GetOtherUrls method.
+                    var domain = UmbracoContext.Current.IsFrontEndUmbracoRequest ? domains.First(x => x.LanguageIsoCode.InvariantEquals(currentCulture)) : domains.First();
+
+                    if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
                     {
-                        // Just get the first domain. The urls for the other domains are generated in the GetOtherUrls method.
-                        var domain = domains.First();
-
-                        if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
-                        {
-                            // Return the domain if we're on the homepage because on that node we've added the domains.
-                            return domain.DomainName;
-                        }
-
-                        // Get the parent url and add the url segment of this culture.
-                        var parentUrl = umbracoContext.UrlProvider.GetUrl(content.Parent.Id);
-                        var urlSegment = content.GetUrlSegment(domain.LanguageIsoCode);
-                        return parentUrl.EnsureEndsWith("/") + urlSegment;
+                        // Return the domain if we're on the homepage because on that node we've added the domains.
+                        return domain.DomainName;
                     }
+
+                    // Get the parent url and add the url segment of this culture.
+                    var parentUrl = umbracoContext.UrlProvider.GetUrl(content.Parent.Id);
+                    var urlSegment = content.GetUrlSegment(domain.LanguageIsoCode);
+                    return parentUrl.EnsureEndsWith("/") + urlSegment;
                 }
             }
 
