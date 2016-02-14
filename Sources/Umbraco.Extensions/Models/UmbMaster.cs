@@ -26,7 +26,6 @@ namespace Umbraco.Extensions.Models
 
     public partial class UmbMaster
     {
-
         /// <summary>
         /// Gets the url segment.
         /// </summary>
@@ -44,6 +43,23 @@ namespace Umbraco.Extensions.Models
 
                 return urlSegment.ToUrlSegment().EnsureEndsWith("/");
             }
+        }
+
+        /// <summary>
+        /// Gets the url segment for a specific culture.
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public string GetUrlSegment(string culture)
+        {
+            var urlSegment = this.GetVortoValue<string>("urlSegment", culture);
+
+            if (string.IsNullOrEmpty(urlSegment))
+            {
+                urlSegment = this.UrlName;
+            }
+
+            return urlSegment.ToUrlSegment().EnsureEndsWith("/");
         }
     }
 }
