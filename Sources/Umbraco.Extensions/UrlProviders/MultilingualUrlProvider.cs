@@ -44,7 +44,7 @@
                 {
                     var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
 
-                    // On the frontend get the domain that matches the current culture. 
+                    // On the frontend get the domain that matches the current culture. We could also check the domain name, but for now the culture is enough.
                     // Otherwise just get the first domain. The urls for the other domains are generated in the GetOtherUrls method.
                     var domain = UmbracoContext.Current.IsFrontEndUmbracoRequest ? domains.First(x => x.LanguageIsoCode.InvariantEquals(currentCulture)) : domains.First();
 
