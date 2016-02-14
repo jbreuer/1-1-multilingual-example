@@ -10,6 +10,7 @@
 namespace Umbraco.Extensions.Events
 {
     using Umbraco.Core;
+    using Umbraco.Extensions.ContentFinders;
     using Umbraco.Extensions.UrlProviders;
     using Umbraco.Web.Routing;
 
@@ -37,6 +38,12 @@ namespace Umbraco.Extensions.Events
             // Remove the DefaultUrlProvider because our MultilingualUrlProvider should take care of all the urls.
             // This only works if there are domains assigned to the home node.
             UrlProviderResolver.Current.RemoveType<DefaultUrlProvider>();
+
+            // With the content finder we can match nodes to urls.
+            ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNiceUrl, MultilingualContentFinder>();
+
+            // Remove the ContentFinderByNiceUrl because our MultilingualContentFinder should find all the content.
+            ContentFinderResolver.Current.RemoveType<ContentFinderByNiceUrl>();
         }
     }
 }

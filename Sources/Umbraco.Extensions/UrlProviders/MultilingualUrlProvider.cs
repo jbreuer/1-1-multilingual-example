@@ -51,7 +51,7 @@
                     if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
                     {
                         // Return the domain if we're on the homepage because on that node we've added the domains.
-                        return domain.DomainName;
+                        return domain.DomainName.EnsureEndsWith("/");
                     }
 
                     // Get the parent url and add the url segment of this culture.
@@ -98,7 +98,7 @@
                         if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
                         {
                             // Return the domain if we're on the homepage because on that node we've added the domains.
-                            urls.AddRange(domains.Select(x => x.DomainName));
+                            urls.AddRange(domains.Select(x => x.DomainName.EnsureEndsWith("/")));
                         }
                         else
                         {
