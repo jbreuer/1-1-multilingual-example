@@ -31,8 +31,8 @@ Desktop.ini
 #Project related
 
 #Deployment/
-packages/
-App_Data/cache/
-App_Data/Logs/
-App_Data/TEMP/
-NuGetBackup/
+Sources/24days/packages/
+Sources/24days/App_Data/cache/
+Sources/24days/App_Data/Logs/
+Sources/24days/App_Data/TEMP/
+Sources/24days/NuGetBackup/
