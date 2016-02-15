@@ -64,5 +64,14 @@ namespace Umbraco.Extensions.Models
 		{
 			get { return this.GetPropertyValue<bool>("umbracoNaviHide"); }
 		}
+
+		///<summary>
+		///Url Preview
+		///</summary>
+		[ImplementPropertyType("urlPreview")]
+		public object UrlPreview
+		{
+			get { return this.GetPropertyValue("urlPreview"); }
+		}
 	}
 }

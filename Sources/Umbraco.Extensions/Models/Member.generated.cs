@@ -58,9 +58,9 @@ namespace Umbraco.Extensions.Models
 		///Comments
 		///</summary>
 		[ImplementPropertyType("umbracoMemberComments")]
-		public object UmbracoMemberComments
+		public string UmbracoMemberComments
 		{
-			get { return this.GetPropertyValue("umbracoMemberComments"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberComments"); }
 		}
 
 		///<summary>
