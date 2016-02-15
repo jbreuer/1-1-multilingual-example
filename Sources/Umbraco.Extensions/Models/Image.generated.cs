@@ -36,7 +36,8 @@ namespace Umbraco.Extensions.Models
 #pragma warning disable 0109 // new is redundant
 		public new static PublishedContentType GetModelContentType()
 		{
-			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+            return null;
+            ////return PublishedContentType.Get(ModelItemType, ModelTypeAlias);return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
 		}
 #pragma warning restore 0109
 

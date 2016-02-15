@@ -1382,7 +1382,6 @@ angular.module('umbraco.mocks').
                   "actions_publish": "Publish",
                   "actions_unpublish": "Unpublish",
                   "actions_refreshNode": "Reload nodes",
-                  "actions_republish": "Republish entire site",
                   "actions_rights": "Permissions",
                   "actions_rollback": "Rollback",
                   "actions_sendtopublish": "Send To Publish",

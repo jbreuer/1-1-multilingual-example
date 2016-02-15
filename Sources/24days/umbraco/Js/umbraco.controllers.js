@@ -5508,6 +5508,78 @@ function examineMgmtController($scope, umbRequestHelper, $log, $http, $q, $timeo
 
 }
 angular.module("umbraco").controller("Umbraco.Dashboard.ExamineMgmtController", examineMgmtController);
+function facadeStatusController($scope, umbRequestHelper, $log, $http, $q, $timeout) {
+
+    // note: must defined 'facaStatusBaseUrl' in BackOfficeController
+
+    umbRequestHelper.resourcePromise(
+        $http.get(umbRequestHelper.getApiUrl('facadeStatusBaseUrl', 'GetFacadeStatusUrl')),
+        'Failed to get facade status url')
+    .then(function (result) {
+        $scope.includeUrl = angular.fromJson(result);
+    });
+
+    //$scope.includeUrl = 'views/dashboard/developer/xmldataintegrityreport.html';
+
+}
+angular.module("umbraco").controller("Umbraco.Dashboard.FacadeStatusController", facadeStatusController);
+function nuCacheController($scope, umbRequestHelper, $log, $http, $q, $timeout) {
+
+    $scope.reload = function () {
+        if ($scope.working) return;
+        if (confirm("Trigger a in-memory and local file cache reload on all servers.")) {
+            $scope.working = true;
+            umbRequestHelper.resourcePromise(
+                $http.post(umbRequestHelper.getApiUrl("nuCacheStatusBaseUrl", "ReloadCache")),
+                    'Failed to trigger a cache reload')
+            .then(function (result) {
+                $scope.working = false;
+            });
+        }
+    };
+
+    $scope.collect = function() {
+        if ($scope.working) return;
+        $scope.working = true;
+        umbRequestHelper.resourcePromise(
+                $http.get(umbRequestHelper.getApiUrl("nuCacheStatusBaseUrl", "Collect")),
+                    'Failed to verify the cache.')
+            .then(function (result) {
+                $scope.working = false;
+                $scope.status = angular.fromJson(result);
+            });
+    };
+
+    $scope.verify = function () {
+        if ($scope.working) return;
+        $scope.working = true;
+        umbRequestHelper.resourcePromise(
+                $http.get(umbRequestHelper.getApiUrl("nuCacheStatusBaseUrl", "GetStatus")),
+                    'Failed to verify the cache.')
+            .then(function (result) {
+                $scope.working = false;
+                $scope.status = angular.fromJson(result);
+            });
+    };
+
+    $scope.rebuild = function () {
+        if ($scope.working) return;
+        if (confirm("Rebuild cmsContentNu table content. Expensive.")) {
+            $scope.working = true;
+            umbRequestHelper.resourcePromise(
+                    $http.post(umbRequestHelper.getApiUrl("nuCacheStatusBaseUrl", "RebuildDbCache")),
+                        'Failed to rebuild the cache.')
+                .then(function(result) {
+                    $scope.working = false;
+                    $scope.status = angular.fromJson(result);
+                });
+        }
+    };
+
+    $scope.working = false;
+    $scope.verify();
+}
+angular.module("umbraco").controller("Umbraco.Dashboard.NuCacheController", nuCacheController);
 function xmlDataIntegrityReportController($scope, umbRequestHelper, $log, $http, $q, $timeout) {
 
     function check(item) {
@@ -5542,7 +5614,7 @@ function xmlDataIntegrityReportController($scope, umbRequestHelper, $log, $http,
 
     $scope.items = {
         "contentXml": {
-            label: "Content in the cmsContentXml table",
+            label: "Content in the cmsContentXml and cmsPreviewXml tables",
             checking: true,
             fixing: false,
             fix: "FixContentXmlTable",
@@ -5563,6 +5635,20 @@ function xmlDataIntegrityReportController($scope, umbRequestHelper, $log, $http,
             check: "CheckMembersXmlTable"
         }
     };
+
+    $scope.reload = function() {
+        if (confirm("This will trigger an Xml cache reload from database on all servers.")) {
+            $scope.reloading = true;
+            umbRequestHelper.resourcePromise(
+                $http.post(umbRequestHelper.getApiUrl("xmlDataIntegrityBaseUrl", "ReloadXmlCache")),
+                'Failed to trigger an Xml cache reload')
+            .then(function (result) {
+                $scope.reloading = false;
+            });
+        }
+    };
+
+    $scope.reloading = false;
 
     for (var i in $scope.items) {
         check($scope.items[i]);
