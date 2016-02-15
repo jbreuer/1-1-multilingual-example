@@ -39,7 +39,7 @@
 
             if (content != null)
             {
-                var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
+                var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.Id).ToList();
                 if (domains.Any())
                 {
                     // Don't use umbracoContext.PublishedContentRequest.Culture because this code is also called in the backend.
@@ -88,7 +88,7 @@
             {
                 if (!UmbracoContext.Current.IsFrontEndUmbracoRequest)
                 {
-                    var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
+                    var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.Id).ToList();
                     if (domains.Count > 1)
                     {
                         var urls = new List<string>();
