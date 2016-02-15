@@ -42,6 +42,7 @@
                 var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
                 if (domains.Any())
                 {
+                    // Don't use umbracoContext.PublishedContentRequest.Culture because this code is also called in the backend.
                     var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
 
                     // On the frontend get the domain that matches the current culture. We could also check the domain name, but for now the culture is enough.
@@ -93,6 +94,7 @@
                         var urls = new List<string>();
 
                         // Skip the first domain because it's already used in the GetUrl method.
+                        // We don't need to check IsFrontEndUmbracoRequest here because this code is only called in the backend.
                         domains = domains.Skip(1).ToList();
 
                         if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
