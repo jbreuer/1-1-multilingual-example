@@ -2733,7 +2733,9 @@
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\ClientDependency.config" />
     <Content Include="umbraco\assets\fonts\helveticons\helveticons.eot" />
     <Content Include="umbraco\assets\fonts\helveticons\helveticons.ttf" />
