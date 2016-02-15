@@ -36,3 +36,5 @@ Sources/24days/App_Data/cache/
 Sources/24days/App_Data/Logs/
 Sources/24days/App_Data/TEMP/
 Sources/24days/NuGetBackup/
+Sources/24days/App_Data/NuGetBackup/
+Sources/Umbraco.Extensions/App_Data/NuGetBackup/
