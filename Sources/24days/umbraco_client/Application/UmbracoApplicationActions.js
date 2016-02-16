@@ -278,12 +278,6 @@ Umbraco.Application.Actions = function() {
                 document.location.href = 'logout.aspx?t=' + t;
         },
 
-        actionRePublish: function() {
-            /// <summary></summary>
-
-            UmbClientMgr.openModalWindow('dialogs/republish.aspx?rnd=' + this._utils.generateRandom(), 'Republishing entire site', true, 450, 210);
-        },
-
         actionAssignDomain: function() {
             /// <summary></summary>
 

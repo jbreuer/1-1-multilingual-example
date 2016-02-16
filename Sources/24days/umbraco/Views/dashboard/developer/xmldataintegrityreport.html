@@ -1,17 +1,18 @@
-<div id="examineManagement" ng-controller="Umbraco.Dashboard.XmlDataIntegrityReportController">
-
-    <h3>Xml Cache Data integrity</h3>
+<div id="xmlDataIntegrityReport" ng-controller="Umbraco.Dashboard.XmlDataIntegrityReportController">
 
     <div ng-show="loading">
         Loading...
     </div>
 
+    <p>You are running the default Xml cache.</p>
+
     <p>
-        This checks the data integrity for the xml structures for content, media and members that are stored in the cmsContentXml table.
-        This does not check the data integrity of the xml cache file, only the xml structures stored in the database used to create the xml cache file.
+        This checks that content, media and members have appropriate corresponding structures in the
+        cmsContentXml and cmsPreviewXml tables. It does not check the data integrity of those structures,
+        nor of the Xml cache (in-memory and file).
     </p>
-    <div ng-repeat="(key, value) in items" class="umb-pane">
-        <span class="">{{value.label}}&nbsp;...</span>
+    <div ng-repeat="(key, value) in items" style="padding: 4px 0;">
+        <span><strong>{{value.label}}&nbsp;...</strong></span>
         <span ng-if="value.checking" class="text-info">Checking...</span>
         <span ng-if="!value.checking && !value.invalid" class="text-success"><strong>Ok</strong></span>
         <span ng-if="!value.checking && value.invalid" class="text-error"><strong>Error</strong></span>
@@ -25,7 +26,15 @@
             <div class="umb-loader"></div>
         </div>
     </div>
-
-
-
+    <p>
+        This lets you do what the former "<em>republish all</em>" menu item did, ie refresh the Xml
+        cache (in-memory and file) by entirely reloading it from the structures in the cmsContentXml
+        and cmsPreviewXml tables.
+    </p>
+    <button type="button" ng-click="reload()" class="btn btn-warning">
+        <span>Reload</span>
+    </button>
+    <div class="umb-loader-wrapper" ng-show="reloading">
+        <div class="umb-loader"></div>
+    </div>
 </div>
