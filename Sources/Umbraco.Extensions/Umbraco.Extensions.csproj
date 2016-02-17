@@ -163,8 +163,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Our.Umbraco.Vorto, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\24days\packages\Our.Umbraco.Vorto.1.4\lib\Our.Umbraco.Vorto.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Our.Umbraco.Vorto.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\24days\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
