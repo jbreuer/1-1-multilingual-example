@@ -37,7 +37,7 @@
 
         <li>
             <article class="is-post-summary">
-                <h3><a href="@newsItem.Url">@title</a></h3>
+                <h3><a href="@UmbracoContext.Current.UrlProvider.GetUrl(newsItem.Id)">@title</a></h3>
                 <ul class="meta">
                     <li class="timestamp">@dateTime.ToString("f")</li>
                 </ul>

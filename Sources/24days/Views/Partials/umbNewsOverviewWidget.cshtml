@@ -48,7 +48,7 @@
                     <!-- Featured Post -->
                     <article class="is-post">
                         <header>
-                            <h3><a href="@featuredNewsItem.Url">@featuredNewsItemTitle</a></h3>
+                            <h3><a href="@UmbracoContext.Current.UrlProvider.GetUrl(featuredNewsItem.Id)">@featuredNewsItemTitle</a></h3>
                             <span class="byline">@featuredNewsItem.SubHeader</span>
                             <ul class="meta">
                                 <li class="timestamp">@(featuredNewsItemDateTime.ToString("f"))</li>
@@ -57,12 +57,12 @@
 
                         @if (string.IsNullOrWhiteSpace(featuredNewsItem.Image) == false)
                         {
-                            <a href="@featuredNewsItem.Url" class="image image-full"><img src="@featuredNewsItem.Image" alt="" /></a>
+                            <a href="@UmbracoContext.Current.UrlProvider.GetUrl(featuredNewsItem.Id)" class="image image-full"><img src="@featuredNewsItem.Image" alt="" /></a>
                         }
 
                         @Umbraco.Truncate(featuredNewsItem.BodyText, 200, true, false)
 
-                        <a href="@featuredNewsItem.Url" class="button">Continue Reading</a>
+                        <a href="@UmbracoContext.Current.UrlProvider.GetUrl(featuredNewsItem.Id)" class="button">Continue Reading</a>
                     </article>
                     <!-- /Featured Post -->
                 </div>

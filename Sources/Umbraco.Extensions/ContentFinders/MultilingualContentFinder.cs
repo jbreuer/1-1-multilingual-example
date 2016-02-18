@@ -46,7 +46,7 @@
                     var allNodes = helper.TypedContentAtRoot().DescendantsOrSelf<UmbMaster>();
                     
                     // See if we can find a node that matched the url. When we check for .Url the UrlProvider will return the correct multilingual url. 
-                    var content = allNodes.FirstOrDefault(x => x.Url.InvariantEquals(url));
+                    var content = allNodes.FirstOrDefault(x => UmbracoContext.Current.UrlProvider.GetUrl(x.Id).InvariantEquals(url));
 
                     if (content != null)
                     {

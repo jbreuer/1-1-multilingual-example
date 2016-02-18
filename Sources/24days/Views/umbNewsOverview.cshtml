@@ -53,7 +53,7 @@
                                 : item.PublishDate;
                             
                             <section>
-                                <h3><a href="@item.Url">@title</a></h3>
+                                <h3><a href="@UmbracoContext.Current.UrlProvider.GetUrl(item.Id)">@title</a></h3>
                                 <span class="byline">@item.SubHeader</span>
                                 <ul class="meta">
                                     <li class="timestamp">@dateTime.ToString("f")</li>
@@ -61,12 +61,12 @@
 
                                 @if (string.IsNullOrWhiteSpace(item.Image) == false)
                                 {
-                                    <a href="@item.Url" class="image image-full"><img src="@item.Image" alt="" /></a>
+                                    <a href="@UmbracoContext.Current.UrlProvider.GetUrl(item.Id)" class="image image-full"><img src="@item.Image" alt="" /></a>
                                 }
 
                                 @Umbraco.Truncate(item.BodyText, 200)
 
-                                <a href="@item.Url" class="button">Continue Reading</a>
+                                <a href="@UmbracoContext.Current.UrlProvider.GetUrl(item.Id)" class="button">Continue Reading</a>
                             </section>
                         }
                     </article>
