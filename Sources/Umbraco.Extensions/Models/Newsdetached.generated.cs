@@ -20,7 +20,9 @@ using Zbu.ModelsBuilder.Umbraco;
 
 namespace Umbraco.Extensions.Models
 {
-	/// <summary>NewsDetached</summary>
+    using System.Web.Mvc;
+
+    /// <summary>NewsDetached</summary>
 	[PublishedContentModel("Newsdetached")]
 	public partial class Newsdetached : Detached
 	{
@@ -51,7 +53,11 @@ namespace Umbraco.Extensions.Models
 		[ImplementPropertyType("bodyText")]
 		public IHtmlString BodyText
 		{
-			get { return this.GetPropertyValue<IHtmlString>("bodyText"); }
+			////get { return this.GetPropertyValue<IHtmlString>("bodyText"); }
+		    get
+		    {
+		        return new MvcHtmlString(this.GetPropertyValue("bodyText").ToString());
+		    }
 		}
 
 		///<summary>
