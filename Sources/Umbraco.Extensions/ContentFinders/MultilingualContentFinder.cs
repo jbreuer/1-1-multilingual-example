@@ -45,7 +45,8 @@
                     // Get all the nodes in the website. This could be bad for performance so should be cached somehow.
                     var allNodes = helper.TypedContentAtRoot().DescendantsOrSelf<UmbMaster>();
                     
-                    // See if we can find a node that matched the url. When we check for .Url the UrlProvider will return the correct multilingual url. 
+                    // See if we can find a node that matched the url. When we check for .Url the UrlProvider will return the correct multilingual url.
+                    // Calling the UrlProvider to check all urls each time is also not good for performance. Should also be cached somehow.
                     var content = allNodes.FirstOrDefault(x => UmbracoContext.Current.UrlProvider.GetUrl(x.Id).InvariantEquals(url));
 
                     if (content != null)
