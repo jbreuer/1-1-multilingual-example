@@ -164,9 +164,9 @@
       <HintPath>packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Our.Umbraco.NestedContent, Version=0.2.5681.29117, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Our.Umbraco.NestedContent.0.2.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Our.Umbraco.NestedContent, Version=0.2.5892.16618, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Our.Umbraco.NestedContent.dll</HintPath>
     </Reference>
     <Reference Include="Our.Umbraco.Vorto">
       <HintPath>..\Libraries\Our.Umbraco.Vorto.dll</HintPath>
