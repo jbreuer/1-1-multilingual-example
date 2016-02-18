@@ -36,7 +36,7 @@ namespace Umbraco.Extensions.Models
 #pragma warning disable 0109 // new is redundant
 		public new static PublishedContentType GetModelContentType()
 		{
-		    return null;
+            return UmbracoContext.Current.Facade.ContentCache.GetContentType(ModelTypeAlias);
 		}
 #pragma warning restore 0109
 
