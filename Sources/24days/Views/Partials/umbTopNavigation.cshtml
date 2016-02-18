@@ -15,7 +15,7 @@
     <ul>
         @* If the Url of the current page is "/" then we want to add the class "current_page_item" *@
         @* Otherwise, we set the class to null, that way it will not even be added to the <li> element *@
-        <li class="@(CurrentPage.Url == "/" ? "current_page_item" : null)"><a href="/">Home</a></li>
+        <li class="@(homePage.Url == "/" ? "current_page_item" : null)"><a href="@homePage.Url">Home</a></li>
 
         @foreach (var item in menuItems)
         {
