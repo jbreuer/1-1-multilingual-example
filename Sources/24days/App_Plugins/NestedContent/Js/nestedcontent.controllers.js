@@ -16,17 +16,6 @@
             );
         }
 
-        $scope.selectedDocTypeTabs = function(cfg) {
-            var dt = _.find($scope.model.docTypes, function(itm) {
-                return itm.alias.toLowerCase() == cfg.ncAlias.toLowerCase();
-            });
-            var tabs = dt ? dt.tabs : [];
-            if (!_.contains(tabs, cfg.ncTabAlias)) {
-                cfg.ncTabAlias = tabs[0];
-            }
-            return tabs;
-        }
-
         $scope.remove = function (index) {
             $scope.model.value.splice(index, 1);
         }
@@ -54,10 +43,9 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
     "$interpolate",
     "$filter",
     "contentResource",
-    "localizationService",
     "Our.Umbraco.NestedContent.Resources.NestedContentResources",
 
-    function ($scope, $interpolate, $filter, contentResource, localizationService, ncResources) {
+    function ($scope, $interpolate, $filter, contentResource, ncResources) {
 
         //$scope.model.config.contentTypes;
         //$scope.model.config.minItems;
@@ -72,28 +60,8 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                 : undefined;
         });
 
-        $scope.editIconTitle = '';
-        $scope.moveIconTitle = '';
-        $scope.deleteIconTitle = '';
-
-        // localize the edit icon title
-        localizationService.localize('general_edit').then(function (value) {
-            $scope.editIconTitle = value;
-        });
-
-        // localize the delete icon title
-        localizationService.localize('general_delete').then(function (value) {
-            $scope.deleteIconTitle = value;
-        });
-
-        // localize the move icon title
-        localizationService.localize('actions_move').then(function (value) {
-            $scope.moveIconTitle = value;
-        });
-
         $scope.nodes = [];
         $scope.currentNode = undefined;
-        $scope.realCurrentNode = undefined;
         $scope.scaffolds = undefined;
         $scope.sorting = false;
 
@@ -104,8 +72,8 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
             $scope.maxItems = 1000;
 
         $scope.singleMode = $scope.minItems == 1 && $scope.maxItems == 1;
+
         $scope.showIcons = $scope.model.config.showIcons || true;
-        $scope.wideMode = $scope.model.config.hideLabel == "1";
 
         $scope.overlayMenu = {
             show: false,
@@ -182,11 +150,9 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                 if ($scope.model.config.confirmDeletes && $scope.model.config.confirmDeletes == 1) {
                     if (confirm("Are you sure you want to delete this item?")) {
                         $scope.nodes.splice(idx, 1);
-                        updateModel();
                     }
                 } else {
                     $scope.nodes.splice(idx, 1);
-                    updateModel();
                 }
             }
         };
@@ -195,24 +161,19 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
 
             var name = "Item " + (idx + 1);
 
-            if ($scope.model.value[idx]) {
+            var contentType = $scope.getContentTypeConfig($scope.model.value[idx].ncContentTypeAlias);
 
-                var contentType = $scope.getContentTypeConfig($scope.model.value[idx].ncContentTypeAlias);
-
-                if (contentType != null && contentType.nameExp) {
-                    var newName = contentType.nameExp($scope.model.value[idx]); // Run it against the stored dictionary value, NOT the node object
-                    if (newName && (newName = $.trim(newName))) {
-                        name = newName;
-                    }
+            if (contentType != null && contentType.nameExp) {
+                var newName = contentType.nameExp($scope.model.value[idx]); // Run it against the stored dictionary value, NOT the node object
+                if (newName && (newName = $.trim(newName))) {
+                    name = newName;
                 }
-
             }
 
             // Update the nodes actual name value
-            if ($scope.nodes[idx].name !== name) {
+            if ($scope.nodes[idx].name != newName) {
                 $scope.nodes[idx].name = name;
             }
-
 
             return name;
         };
@@ -243,7 +204,6 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                 });
                 $scope.$apply(function () {
                     $scope.sorting = false;
-                    updateModel();
                 });
             }
         };
@@ -267,8 +227,8 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
             contentResource.getScaffold(-20, contentType.ncAlias).then(function(scaffold) {
                 // remove all tabs except the specified tab
                 var tab = _.find(scaffold.tabs, function(tab) {
-                    return tab.id != 0 && (tab.alias.toLowerCase() == contentType.ncTabAlias.toLowerCase() || contentType.ncTabAlias == "");
-                });
+                    return tab.id != 0 && (tab.alias == contentType.ncTabAlias || contentType.ncTabAlias == "");
+                })
                 scaffold.tabs = [];
                 if (tab) {
                     scaffold.tabs.push(tab);
@@ -337,8 +297,6 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                 var tab = node.tabs[t];
                 for (var p = 0; p < tab.properties.length; p++) {
                     var prop = tab.properties[p];
-                    prop.propertyAlias = prop.alias;
-                    prop.alias = $scope.model.alias + "___" + prop.alias;
                     // Force validation to occur server side as this is the 
                     // only way we can have consistancy between mandatory and
                     // regex validation messages. Not ideal, but it works.
@@ -347,8 +305,8 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                         pattern: ""
                     };
                     if (item) {
-                        if (item[prop.propertyAlias]) {
-                            prop.value = item[prop.propertyAlias];
+                        if (item[prop.alias]) {
+                            prop.value = item[prop.alias];
                         }
                     }
                 }
@@ -359,10 +317,7 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
             return node;
         }
 
-        var updateModel = function () {
-            if ($scope.realCurrentNode) {
-                $scope.$broadcast("ncSyncVal", { id: $scope.realCurrentNode.id });
-            }
+        $scope.$watch("nodes", function () {
             if (inited) {
                 var newValues = [];
                 for (var i = 0; i < $scope.nodes.length; i++) {
@@ -376,7 +331,7 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                         for (var p = 0; p < tab.properties.length; p++) {
                             var prop = tab.properties[p];
                             if (typeof prop.value !== "function") {
-                                newValue[prop.propertyAlias] = prop.value;
+                                newValue[prop.alias] = prop.value;
                             }
                         }
                     }
@@ -384,20 +339,7 @@ angular.module("umbraco").controller("Our.Umbraco.NestedContent.Controllers.Nest
                 }
                 $scope.model.value = newValues;
             }
-        }
-
-        $scope.$watch("currentNode", function (newVal) {
-            updateModel();
-            $scope.realCurrentNode = newVal;
-        });
-
-        var unsubscribe = $scope.$on("formSubmitting", function (ev, args) {
-            updateModel();
-        });
-
-        $scope.$on('$destroy', function () {
-            unsubscribe();
-        });
+        }, true);
 
         var guid = function () {
             function _p8(s) {
