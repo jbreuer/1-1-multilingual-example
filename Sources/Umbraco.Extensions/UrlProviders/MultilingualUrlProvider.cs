@@ -107,42 +107,45 @@ namespace Umbraco.Extensions.UrlProviders
 
             if (content != null)
             {
-                if (!UmbracoContext.Current.IsFrontEndUmbracoRequest)
+                var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.Id).ToList();
+                if (domains.Count > 1)
                 {
-                    var domains =
-                        ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.Id).ToList();
-                    if (domains.Count > 1)
+                    var urls = new List<string>();
+
+                    // Don't use umbracoContext.PublishedContentRequest.Culture because this code is also called in the backend.
+                    var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+
+                    // Find the domain that's used in the GetUrl method.
+                    var domain = UmbracoContext.Current.IsFrontEndUmbracoRequest
+                                     ? domains.First(x => x.LanguageIsoCode.InvariantEquals(currentCulture))
+                                     : domains.First();
+
+                    // Remove the found domain because it's already used.
+                    domains.Remove(domain);
+
+                    if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
                     {
-                        var urls = new List<string>();
-
-                        // Skip the first domain because it's already used in the GetUrl method.
-                        // We don't need to check IsFrontEndUmbracoRequest here because this code is only called in the backend.
-                        domains = domains.Skip(1).ToList();
-
-                        if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
-                        {
-                            // Return the domain if we're on the homepage because on that node we've added the domains.
-                            urls.AddRange(domains.Select(x => x.DomainName.EnsureEndsWith("/")));
-                        }
-                        else
-                        {
-                            // Get the other urls for the parent which aren't the main url.
-                            var parentUrls = umbracoContext.UrlProvider.GetOtherUrls(content.Parent.Id).ToList();
-
-                            for (int i = 0; i < domains.Count; i++)
-                            {
-                                // Get the domain and matching parent url.
-                                var domain = domains[i];
-                                var parentUrl = parentUrls[i];
-
-                                // Get the parent url and add the url segment of this culture.
-                                var urlSegment = content.GetUrlSegment(domain.LanguageIsoCode);
-                                urls.Add(parentUrl.EnsureEndsWith("/") + urlSegment);
-                            }
-                        }
-
-                        return urls;
+                        // Return the domain if we're on the homepage because on that node we've added the domains.
+                        urls.AddRange(domains.Select(x => x.DomainName.EnsureEndsWith("/")));
                     }
+                    else
+                    {
+                        // Get the other urls for the parent which aren't the main url.
+                        var parentUrls = umbracoContext.UrlProvider.GetOtherUrls(content.Parent.Id).ToList();
+
+                        for (int i = 0; i < domains.Count; i++)
+                        {
+                            // Get the domain and matching parent url.
+                            var otherDomain = domains[i];
+                            var otherParentUrl = parentUrls[i];
+
+                            // Get the parent url and add the url segment of this culture.
+                            var urlSegment = content.GetUrlSegment(otherDomain.LanguageIsoCode);
+                            urls.Add(otherParentUrl.EnsureEndsWith("/") + urlSegment);
+                        }
+                    }
+
+                    return urls;
                 }
             }
 

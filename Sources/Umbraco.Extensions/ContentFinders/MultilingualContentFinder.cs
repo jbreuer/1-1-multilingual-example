@@ -45,11 +45,20 @@
                         "MultilingualContentFinder-Urls",
                         () =>
                         {
+                            var contentUrls = new List<Tuple<int, string>>();
+
                             // Get all the nodes in the website.
                             var allNodes = helper.TypedContentAtRoot().DescendantsOrSelf<UmbMaster>().ToList();
 
-                            // Get all the urls in the website.
-                            return allNodes.Select(x => new Tuple<int, string>(x.Id, x.Url)).ToList();
+                            foreach (var node in allNodes)
+                            {
+                                // Get all the urls in the website.
+                                // With UrlProvider.GetOtherUrls we also get the urls of the other languages.
+                                contentUrls.Add(new Tuple<int, string>(node.Id, node.Url));
+                                contentUrls.AddRange(UmbracoContext.Current.UrlProvider.GetOtherUrls(node.Id).Select(x => new Tuple<int, string>(node.Id, x)));
+                            }
+                            
+                            return contentUrls;
                         });
 
                     if (urls.Any())
