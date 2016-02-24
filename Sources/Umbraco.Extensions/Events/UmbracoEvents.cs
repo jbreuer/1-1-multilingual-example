@@ -15,6 +15,7 @@ namespace Umbraco.Extensions.Events
     using Umbraco.Core.Services;
     using Umbraco.Extensions.ContentFinders;
     using Umbraco.Extensions.UrlProviders;
+    using Umbraco.Web.Cache;
     using Umbraco.Web.Routing;
 
     /// <summary>
@@ -34,11 +35,7 @@ namespace Umbraco.Extensions.Events
         protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             // Events.
-            ContentService.Published += this.ContentPublished;
-            ContentService.UnPublished += this.ContentUnpublished;
-            ContentService.Moved += this.ContentMoved;
-            ContentService.Trashed += this.ContentTrashed;
-            ContentService.Deleted += this.ContentDeleted;
+            PageCacheRefresher.CacheUpdated += this.PageCacheRefresherCacheUpdated;
 
             // With the url providers we can change node urls.
             UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, MultilingualUrlProvider>();
@@ -54,32 +51,7 @@ namespace Umbraco.Extensions.Events
             ContentFinderResolver.Current.RemoveType<ContentFinderByNiceUrl>();
         }
 
-        private void ContentPublished(IPublishingStrategy sender, PublishEventArgs<IContent> e)
-        {
-            this.ClearCache();
-        }
-
-        private void ContentDeleted(IContentService sender, DeleteEventArgs<IContent> e)
-        {
-            this.ClearCache();
-        }
-
-        private void ContentTrashed(IContentService sender, MoveEventArgs<IContent> e)
-        {
-            this.ClearCache();
-        }
-
-        private void ContentMoved(IContentService sender, MoveEventArgs<IContent> e)
-        {
-            this.ClearCache();
-        }
-
-        private void ContentUnpublished(IPublishingStrategy sender, PublishEventArgs<IContent> e)
-        {
-            this.ClearCache();
-        }
-
-        private void ClearCache()
+        private void PageCacheRefresherCacheUpdated(PageCacheRefresher sender, Core.Cache.CacheRefresherEventArgs e)
         {
             // After content has been updated clear content finder cache.
             ApplicationContext.Current.ApplicationCache.RuntimeCache.ClearCacheByKeySearch("MultilingualContentFinder");
