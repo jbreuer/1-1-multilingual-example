@@ -1,9 +1,11 @@
 ﻿namespace Umbraco.Extensions.ContentFinders
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using Umbraco.Core;
+    using Umbraco.Core.Cache;
     using Umbraco.Core.Logging;
     using Umbraco.Extensions.Models;
     using Umbraco.Web;
@@ -34,24 +36,47 @@
             {
                 using (
                     ApplicationContext.Current.ProfilingLogger.TraceDuration<MultilingualContentFinder>(
-                        "Started TryFindContent", 
+                        "Started TryFindContent",
                         "Completed TryFindContent"))
                 {
                     var helper = new UmbracoHelper(UmbracoContext.Current);
 
-                    // Get the current url without querystring.
-                    var url = this.RemoveQueryFromUrl(contentRequest.Uri.ToString()).EnsureEndsWith("/");
+                    var urls = UmbracoContext.Current.Application.ApplicationCache.RuntimeCache.GetCacheItem<List<Tuple<int, string>>>(
+                        "MultilingualContentFinder-Urls",
+                        () =>
+                        {
+                            var contentUrls = new List<Tuple<int, string>>();
 
-                    // Get all the nodes in the website. This could be bad for performance so should be cached somehow.
-                    var allNodes = helper.TypedContentAtRoot().DescendantsOrSelf<UmbMaster>();
-                    
-                    // See if we can find a node that matched the url. When we check for .Url the UrlProvider will return the correct multilingual url.
-                    // Calling the UrlProvider to check all urls each time is also not good for performance. Should also be cached somehow.
-                    var content = allNodes.FirstOrDefault(x => UmbracoContext.Current.UrlProvider.GetUrl(x.Id).InvariantEquals(url));
+                            // Get all the nodes in the website.
+                            var allNodes = helper.TypedContentAtRoot().DescendantsOrSelf<UmbMaster>().ToList();
 
-                    if (content != null)
+                            foreach (var node in allNodes)
+                            {
+                                // Get all the urls in the website.
+                                // With UrlProvider.GetOtherUrls we also get the urls of the other languages.
+                                contentUrls.Add(new Tuple<int, string>(node.Id, UmbracoContext.Current.UrlProvider.GetUrl(node.Id)));
+                                contentUrls.AddRange(UmbracoContext.Current.UrlProvider.GetOtherUrls(node.Id).Select(x => new Tuple<int, string>(node.Id, x)));
+                            }
+
+                            return contentUrls;
+                        });
+
+                    if (urls.Any())
                     {
-                        contentRequest.PublishedContent = content;
+                        // Get the current url without querystring.
+                        var url = this.RemoveQueryFromUrl(contentRequest.Uri.ToString()).EnsureEndsWith("/");
+
+                        var currentUrlItem = urls.FirstOrDefault(x => url.Equals(x.Item2));
+
+                        if (currentUrlItem != null)
+                        {
+                            var contentItem = UmbracoContext.Current.ContentCache.GetById(currentUrlItem.Item1);
+
+                            if (contentItem != null)
+                            {
+                                contentRequest.PublishedContent = contentItem;
+                            }
+                        }
                     }
                 }
             }

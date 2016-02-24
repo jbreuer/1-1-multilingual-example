@@ -1,4 +1,13 @@
-﻿namespace Umbraco.Extensions.UrlProviders
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MultilingualUrlProvider.cs" company="Colours B.V.">
+//   © Colours B.V. 2015
+// </copyright>
+// <summary>
+//   The multilingual url provider.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Umbraco.Extensions.UrlProviders
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +15,7 @@
     using System.Threading;
 
     using Umbraco.Core;
+    using Umbraco.Core.Cache;
     using Umbraco.Extensions.Models;
     using Umbraco.Web;
     using Umbraco.Web.Routing;
@@ -35,34 +45,45 @@
         /// </returns>
         public string GetUrl(UmbracoContext umbracoContext, int id, Uri current, UrlProviderMode mode)
         {
-            var content = umbracoContext.ContentCache.GetById(id) as UmbMaster;
-
-            if (content != null)
-            {
-                var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
-                if (domains.Any())
+            return UmbracoContext.Current.Application.ApplicationCache.RequestCache.GetCacheItem<string>(
+                "MultilingualUrlProvider-GetUrl-" + id,
+                () =>
                 {
-                    // Don't use umbracoContext.PublishedContentRequest.Culture because this code is also called in the backend.
-                    var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+                    var content = umbracoContext.ContentCache.GetById(id) as UmbMaster;
 
-                    // On the frontend get the domain that matches the current culture. We could also check the domain name, but for now the culture is enough.
-                    // Otherwise just get the first domain. The urls for the other domains are generated in the GetOtherUrls method.
-                    var domain = UmbracoContext.Current.IsFrontEndUmbracoRequest ? domains.First(x => x.LanguageIsoCode.InvariantEquals(currentCulture)) : domains.First();
-
-                    if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
+                    if (content != null)
                     {
-                        // Return the domain if we're on the homepage because on that node we've added the domains.
-                        return domain.DomainName.EnsureEndsWith("/");
+                        var domains =
+                            ApplicationContext.Current.Services.DomainService.GetAll(true)
+                                .OrderBy(x => x.Id)
+                                .ToList();
+
+                        if (domains.Any())
+                        {
+                            // Don't use umbracoContext.PublishedContentRequest.Culture because this code is also called in the backend.
+                            var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+
+                            // On the frontend get the domain that matches the current culture. We could also check the domain name, but for now the culture is enough.
+                            // Otherwise just get the first domain. The urls for the other domains are generated in the GetOtherUrls method.
+                            var domain = UmbracoContext.Current.IsFrontEndUmbracoRequest
+                                             ? domains.First(x => x.LanguageIsoCode.InvariantEquals(currentCulture))
+                                             : domains.First();
+
+                            if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
+                            {
+                                // Return the domain if we're on the homepage because on that node we've added the domains.
+                                return domain.DomainName.EnsureEndsWith("/");
+                            }
+
+                            // Get the parent url and add the url segment of this culture.
+                            var parentUrl = umbracoContext.UrlProvider.GetUrl(content.Parent.Id);
+                            var urlSegment = content.GetUrlSegment(domain.LanguageIsoCode);
+                            return parentUrl.EnsureEndsWith("/") + urlSegment;
+                        }
                     }
 
-                    // Get the parent url and add the url segment of this culture.
-                    var parentUrl = umbracoContext.UrlProvider.GetUrl(content.Parent.Id);
-                    var urlSegment = content.GetUrlSegment(domain.LanguageIsoCode);
-                    return parentUrl.EnsureEndsWith("/") + urlSegment;
-                }
-            }
-
-            return null;
+                    return null;
+                });
         }
 
         /// <summary>
@@ -82,49 +103,58 @@
         /// </returns>
         public IEnumerable<string> GetOtherUrls(UmbracoContext umbracoContext, int id, Uri current)
         {
-            var content = umbracoContext.ContentCache.GetById(id) as UmbMaster;
-
-            if (content != null)
-            {
-                if (!UmbracoContext.Current.IsFrontEndUmbracoRequest)
+            return UmbracoContext.Current.Application.ApplicationCache.RequestCache.GetCacheItem<IEnumerable<string>>(
+                "MultilingualUrlProvider-GetOtherUrls-" + id,
+                () =>
                 {
-                    var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.CreateDate).ToList();
-                    if (domains.Count > 1)
+                    var content = umbracoContext.ContentCache.GetById(id) as UmbMaster;
+
+                    if (content != null)
                     {
-                        var urls = new List<string>();
-
-                        // Skip the first domain because it's already used in the GetUrl method.
-                        // We don't need to check IsFrontEndUmbracoRequest here because this code is only called in the backend.
-                        domains = domains.Skip(1).ToList();
-
-                        if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
+                        var domains = ApplicationContext.Current.Services.DomainService.GetAll(true).OrderBy(x => x.Id).ToList();
+                        if (domains.Count > 1)
                         {
-                            // Return the domain if we're on the homepage because on that node we've added the domains.
-                            urls.AddRange(domains.Select(x => x.DomainName.EnsureEndsWith("/")));
-                        }
-                        else
-                        {
-                            // Get the other urls for the parent which aren't the main url.
-                            var parentUrls = umbracoContext.UrlProvider.GetOtherUrls(content.Parent.Id).ToList();
+                            var urls = new List<string>();
 
-                            for (int i = 0; i < domains.Count; i++)
+                            // Don't use umbracoContext.PublishedContentRequest.Culture because this code is also called in the backend.
+                            var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+
+                            // Find the domain that's used in the GetUrl method.
+                            var domain = UmbracoContext.Current.IsFrontEndUmbracoRequest
+                                             ? domains.First(x => x.LanguageIsoCode.InvariantEquals(currentCulture))
+                                             : domains.First();
+
+                            // Remove the found domain because it's already used.
+                            domains.Remove(domain);
+
+                            if (content.DocumentTypeAlias.InvariantEquals(UmbHomePage.ModelTypeAlias))
                             {
-                                // Get the domain and matching parent url.
-                                var domain = domains[i];
-                                var parentUrl = parentUrls[i];
-
-                                // Get the parent url and add the url segment of this culture.
-                                var urlSegment = content.GetUrlSegment(domain.LanguageIsoCode);
-                                urls.Add(parentUrl.EnsureEndsWith("/") + urlSegment);
+                                // Return the domain if we're on the homepage because on that node we've added the domains.
+                                urls.AddRange(domains.Select(x => x.DomainName.EnsureEndsWith("/")));
                             }
+                            else
+                            {
+                                // Get the other urls for the parent which aren't the main url.
+                                var parentUrls = umbracoContext.UrlProvider.GetOtherUrls(content.Parent.Id).ToList();
+
+                                for (int i = 0; i < domains.Count; i++)
+                                {
+                                    // Get the domain and matching parent url.
+                                    var otherDomain = domains[i];
+                                    var otherParentUrl = parentUrls[i];
+
+                                    // Get the parent url and add the url segment of this culture.
+                                    var urlSegment = content.GetUrlSegment(otherDomain.LanguageIsoCode);
+                                    urls.Add(otherParentUrl.EnsureEndsWith("/") + urlSegment);
+                                }
+                            }
+
+                            return urls;
                         }
-
-                        return urls;
                     }
-                }
-            }
 
-            return null;
+                    return null;
+                });
         }
     }
 }

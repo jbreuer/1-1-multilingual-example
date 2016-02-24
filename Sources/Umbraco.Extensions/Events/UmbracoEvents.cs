@@ -6,12 +6,13 @@
 //   The umbraco events.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Umbraco.Extensions.Events
 {
     using Umbraco.Core;
+    using Umbraco.Core.Cache;
     using Umbraco.Extensions.ContentFinders;
     using Umbraco.Extensions.UrlProviders;
+    using Umbraco.Web.Cache;
     using Umbraco.Web.Routing;
 
     /// <summary>
@@ -28,10 +29,11 @@ namespace Umbraco.Extensions.Events
         /// <param name="applicationContext">
         /// The application context.
         /// </param>
-        protected override void ApplicationStarting(
-            UmbracoApplicationBase umbracoApplication, 
-            ApplicationContext applicationContext)
+        protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
+            // Events.
+            ContentCacheRefresher.CacheUpdated += this.ContentCacheRefresherCacheUpdated;
+
             // With the url providers we can change node urls.
             UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, MultilingualUrlProvider>();
 
@@ -44,6 +46,12 @@ namespace Umbraco.Extensions.Events
 
             // Remove the ContentFinderByNiceUrl because our MultilingualContentFinder should find all the content.
             ContentFinderResolver.Current.RemoveType<ContentFinderByNiceUrl>();
+        }
+
+        private void ContentCacheRefresherCacheUpdated(ContentCacheRefresher sender, CacheRefresherEventArgs e)
+        {
+            // After content has been updated clear content finder cache.
+            ApplicationContext.Current.ApplicationCache.RuntimeCache.ClearCacheByKeySearch("MultilingualContentFinder");
         }
     }
 }
