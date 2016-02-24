@@ -66,7 +66,7 @@
                         // Get the current url without querystring.
                         var url = this.RemoveQueryFromUrl(contentRequest.Uri.ToString()).EnsureEndsWith("/");
 
-                        var currentUrlItem = urls.FirstOrDefault(x => url.Equals(x.Item2));
+                        var currentUrlItem = urls.FirstOrDefault(x => url.InvariantEquals(x.Item2));
 
                         if (currentUrlItem != null)
                         {
