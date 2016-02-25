@@ -1,43 +1,0 @@
-
--------------------------------------------------------------------------------
-   ROBOCOPY     ::     Robust File Copy for Windows                              
--------------------------------------------------------------------------------
-
-  Started : Sunday, December 6, 2015 5:10:52 PM
-   Source : D:\development\24days\Umbraco.Extensions\bin\
-     Dest : D:\development\24days\Umbraco.Extensions\App_Data\NuGetBackup\20151206-171052\bin\
-
-    Files : *.*
-	    
-  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:1000000 /W:30 
-
-------------------------------------------------------------------------------
-
-	                   0	D:\development\24days\Umbraco.Extensions\bin\
-	  New Dir         11	D:\development\24days\Umbraco.Extensions\bin\Debug\
-	    New File  		   3.8 m	Microsoft.CodeAnalysis.CSharp.dll  0%   13%   26%   39%   52%   65%   78%   91%  100%  
-	    New File  		   2.0 m	Microsoft.CodeAnalysis.CSharp.xml  0%   24%   48%   72%   96%  100%  
-	    New File  		   1.6 m	Microsoft.CodeAnalysis.dll  0%   15%   30%   45%   60%   76%   91%  100%  
-	    New File  		   1.2 m	Microsoft.CodeAnalysis.xml  0%   19%   38%   58%   77%   97%  100%  
-	    New File  		  204544	System.Collections.Immutable.dll  0%   64%  100%  
-	    New File  		  423820	System.Collections.Immutable.xml  0%   30%   61%   92%  100%  
-	    New File  		  262896	System.Reflection.Metadata.dll  0%   49%   99%  100%  
-	    New File  		  174072	System.Reflection.Metadata.xml  0%   75%  100%  
-	    New File  		    4096	Umbraco.Extensions.dll  0%  100%  
-	    New File  		    7680	Umbraco.Extensions.pdb  0%  100%  
-	    New File  		   61440	Zbu.ModelsBuilder.dll  0%  100%  
-	  New Dir          0	D:\development\24days\Umbraco.Extensions\bin\Release\
-
-------------------------------------------------------------------------------
-
-               Total    Copied   Skipped  Mismatch    FAILED    Extras
-    Dirs :         3         2         0         0         0         0
-   Files :        11        11         0         0         0         0
-   Bytes :    9.90 m    9.90 m         0         0         0         0
-   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
-
-
-   Speed :            13394794 Bytes/sec.
-   Speed :             766.456 MegaBytes/min.
-   Ended : Sunday, December 6, 2015 5:10:53 PM
-
