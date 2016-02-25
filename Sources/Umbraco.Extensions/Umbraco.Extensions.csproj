@@ -288,7 +288,9 @@
   <ItemGroup>
     <Compile Include="ContentFinders\MultilingualContentFinder.cs" />
     <Compile Include="Controllers\UrlPreviewApiController.cs" />
+    <Compile Include="CustomBootManager.cs" />
     <Compile Include="Events\UmbracoEvents.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Models\Builder.cs">
       <Generator>ZbuModelsBuilder</Generator>
     </Compile>
