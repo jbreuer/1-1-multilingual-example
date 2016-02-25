@@ -49,18 +49,18 @@ namespace Umbraco.Extensions.Models
 		///Size
 		///</summary>
 		[ImplementPropertyType("umbracoBytes")]
-		public object UmbracoBytes
+		public string UmbracoBytes
 		{
-			get { return this.GetPropertyValue("umbracoBytes"); }
+			get { return this.GetPropertyValue<string>("umbracoBytes"); }
 		}
 
 		///<summary>
 		///Type
 		///</summary>
 		[ImplementPropertyType("umbracoExtension")]
-		public object UmbracoExtension
+		public string UmbracoExtension
 		{
-			get { return this.GetPropertyValue("umbracoExtension"); }
+			get { return this.GetPropertyValue<string>("umbracoExtension"); }
 		}
 
 		///<summary>
@@ -76,18 +76,18 @@ namespace Umbraco.Extensions.Models
 		///Height
 		///</summary>
 		[ImplementPropertyType("umbracoHeight")]
-		public object UmbracoHeight
+		public string UmbracoHeight
 		{
-			get { return this.GetPropertyValue("umbracoHeight"); }
+			get { return this.GetPropertyValue<string>("umbracoHeight"); }
 		}
 
 		///<summary>
 		///Width
 		///</summary>
 		[ImplementPropertyType("umbracoWidth")]
-		public object UmbracoWidth
+		public string UmbracoWidth
 		{
-			get { return this.GetPropertyValue("umbracoWidth"); }
+			get { return this.GetPropertyValue<string>("umbracoWidth"); }
 		}
 	}
 }

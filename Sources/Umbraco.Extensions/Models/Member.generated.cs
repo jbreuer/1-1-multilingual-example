@@ -67,36 +67,36 @@ namespace Umbraco.Extensions.Models
 		///Failed Password Attempts
 		///</summary>
 		[ImplementPropertyType("umbracoMemberFailedPasswordAttempts")]
-		public object UmbracoMemberFailedPasswordAttempts
+		public string UmbracoMemberFailedPasswordAttempts
 		{
-			get { return this.GetPropertyValue("umbracoMemberFailedPasswordAttempts"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberFailedPasswordAttempts"); }
 		}
 
 		///<summary>
 		///Last Lockout Date
 		///</summary>
 		[ImplementPropertyType("umbracoMemberLastLockoutDate")]
-		public object UmbracoMemberLastLockoutDate
+		public string UmbracoMemberLastLockoutDate
 		{
-			get { return this.GetPropertyValue("umbracoMemberLastLockoutDate"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberLastLockoutDate"); }
 		}
 
 		///<summary>
 		///Last Login Date
 		///</summary>
 		[ImplementPropertyType("umbracoMemberLastLogin")]
-		public object UmbracoMemberLastLogin
+		public string UmbracoMemberLastLogin
 		{
-			get { return this.GetPropertyValue("umbracoMemberLastLogin"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberLastLogin"); }
 		}
 
 		///<summary>
 		///Last Password Change Date
 		///</summary>
 		[ImplementPropertyType("umbracoMemberLastPasswordChangeDate")]
-		public object UmbracoMemberLastPasswordChangeDate
+		public string UmbracoMemberLastPasswordChangeDate
 		{
-			get { return this.GetPropertyValue("umbracoMemberLastPasswordChangeDate"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberLastPasswordChangeDate"); }
 		}
 
 		///<summary>
@@ -112,18 +112,18 @@ namespace Umbraco.Extensions.Models
 		///Password Answer
 		///</summary>
 		[ImplementPropertyType("umbracoMemberPasswordRetrievalAnswer")]
-		public object UmbracoMemberPasswordRetrievalAnswer
+		public string UmbracoMemberPasswordRetrievalAnswer
 		{
-			get { return this.GetPropertyValue("umbracoMemberPasswordRetrievalAnswer"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberPasswordRetrievalAnswer"); }
 		}
 
 		///<summary>
 		///Password Question
 		///</summary>
 		[ImplementPropertyType("umbracoMemberPasswordRetrievalQuestion")]
-		public object UmbracoMemberPasswordRetrievalQuestion
+		public string UmbracoMemberPasswordRetrievalQuestion
 		{
-			get { return this.GetPropertyValue("umbracoMemberPasswordRetrievalQuestion"); }
+			get { return this.GetPropertyValue<string>("umbracoMemberPasswordRetrievalQuestion"); }
 		}
 	}
 }
