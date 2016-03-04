@@ -159,7 +159,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Our.Umbraco.Vorto, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\24days\packages\Our.Umbraco.Vorto.1.4\lib\Our.Umbraco.Vorto.dll</HintPath>
+      <HintPath>..\24days\packages\Our.Umbraco.Vorto.1.5.1\lib\net45\Our.Umbraco.Vorto.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -360,7 +360,6 @@
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
     <Content Include="App_Plugins\Vorto\css\vorto.css" />
-    <Content Include="App_Plugins\Vorto\js\jquery.cookie.js" />
     <Content Include="App_Plugins\Vorto\js\jquery.hoverIntent.minified.js" />
     <Content Include="App_Plugins\Vorto\js\vorto.js" />
     <Content Include="App_Plugins\Vorto\views\vorto.html" />
@@ -368,6 +367,7 @@
     <Content Include="App_Plugins\Vorto\views\vorto.languageSourceRadioList.html" />
     <Content Include="App_Plugins\Vorto\views\vorto.mandatoryBehaviourPicker.html" />
     <Content Include="App_Plugins\Vorto\views\vorto.propertyEditorPicker.html" />
+    <Content Include="App_Plugins\Vorto\views\vorto.rtlBehaviourPicker.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
