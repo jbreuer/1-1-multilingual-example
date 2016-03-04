@@ -16,7 +16,6 @@ Desktop.ini
 
 # User-specific files
 *.suo
-*.user
 *.cache
 *.orig
 *.udt
