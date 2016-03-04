@@ -291,10 +291,9 @@
       <LastGenOutput>Builder.generated.cs</LastGenOutput>
     </Compile>
     <Compile Include="Models\Builder.generated.cs">
-      <DependentUpon>Builder.cs</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Builder.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
@@ -302,7 +301,6 @@
     </Compile>
     <Compile Include="Models\File.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Folder.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>

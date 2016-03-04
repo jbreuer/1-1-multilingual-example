@@ -298,14 +298,6 @@
       <HintPath>packages\UrlRewritingNet.2.0.7\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Zbu.ModelsBuilder, Version=2.1.5.54, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Zbu.ModelsBuilder.2.1.5\lib\Zbu.ModelsBuilder.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Zbu.ModelsBuilder.AspNet, Version=2.1.5.54, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Zbu.ModelsBuilder.AspNet.2.1.5\lib\Zbu.ModelsBuilder.AspNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -2721,8 +2713,6 @@
     <Content Include="umbraco_client\Ui\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="umbraco_client\Ui\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="umbraco_client\Ui\ui-lightness\jquery-ui.custom.css" />
-    <Content Include="UserControls\Zbu\ModelsBuilder\BuildModels.ascx" />
-    <Content Include="UserControls\Zbu\ModelsBuilder\logo32x32.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
