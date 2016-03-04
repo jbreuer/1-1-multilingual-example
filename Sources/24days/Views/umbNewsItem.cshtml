@@ -1,5 +1,5 @@
 ﻿@using Umbraco.Extensions.Models
-@inherits UmbracoTemplatePage
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<UmbNewsItem>
 @{
     Layout = "umbLayout.cshtml";
     
@@ -9,8 +9,7 @@
         ? CurrentPage.Name
         : CurrentPage.Title;
 
-    var newsItem = Model.Content as UmbNewsItem;
-    var newsDetached = newsItem.News;
+    var newsDetached = Model.Content.News;
 }
 <div id="main-wrapper">
     <div id="main" class="container">

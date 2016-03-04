@@ -260,6 +260,9 @@
       <HintPath>..\24days\packages\UmbracoCms.Core.7.4.1\lib\umbraco.MacroEngines.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Umbraco.ModelsBuilder">
+      <HintPath>..\24days\packages\Umbraco.ModelsBuilder.3.0.0\lib\Umbraco.ModelsBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="umbraco.providers, Version=1.0.5891.23243, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\24days\packages\UmbracoCms.Core.7.4.1\lib\umbraco.providers.dll</HintPath>
       <Private>True</Private>
@@ -276,10 +279,6 @@
       <HintPath>..\24days\packages\UrlRewritingNet.2.0.7\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Zbu.ModelsBuilder, Version=2.1.3.52, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\24days\packages\Zbu.ModelsBuilder.2.1.3\lib\Zbu.ModelsBuilder.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentFinders\MultilingualContentFinder.cs" />
@@ -288,11 +287,12 @@
     <Compile Include="Events\UmbracoEvents.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Models\Builder.cs">
-      <Generator>ZbuModelsBuilder</Generator>
+      <Generator>UmbracoModelsBuilder</Generator>
       <LastGenOutput>Builder.generated.cs</LastGenOutput>
     </Compile>
     <Compile Include="Models\Builder.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
+      <SubType>Code</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
