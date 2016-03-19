@@ -30,7 +30,10 @@
 
                             <h3>@newsDetached.Subheader</h3>
                             @newsDetached.BodyText
-                            <p>@newsDetached.Image</p>
+                            @if (newsDetached.Image != null)
+                            {
+                                <img src="@newsDetached.Image.UmbracoFile" alt="@newsDetached.Image.Name" width="300"/>
+                            }
                         </section>                           
                     </article>
                     <!-- /Content -->
