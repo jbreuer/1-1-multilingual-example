@@ -70,9 +70,9 @@ namespace Umbraco.Extensions.Models
 		}
 
         [ImplementPropertyType("image")]
-        public int Image
+        public Image Image
         {
-            get { return this.GetPropertyValue<int>("image"); }
+            get { return this.GetPropertyValue<Image>("image"); }
         }
 	}
 }
