@@ -68,5 +68,11 @@ namespace Umbraco.Extensions.Models
 		{
 			get { return this.GetPropertyValue<string>("subheader"); }
 		}
+
+        [ImplementPropertyType("image")]
+        public int Image
+        {
+            get { return this.GetPropertyValue<int>("image"); }
+        }
 	}
 }
