@@ -55,6 +55,15 @@ namespace Umbraco.Extensions.Models
 		}
 
 		///<summary>
+		/// Media
+		///</summary>
+		[ImplementPropertyType("media")]
+		public string Media
+		{
+			get { return this.GetPropertyValue<string>("media"); }
+		}
+
+		///<summary>
 		/// Subheader
 		///</summary>
 		[ImplementPropertyType("subheader")]

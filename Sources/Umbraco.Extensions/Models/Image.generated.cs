@@ -67,9 +67,9 @@ namespace Umbraco.Extensions.Models
 		/// Upload image
 		///</summary>
 		[ImplementPropertyType("umbracoFile")]
-		public object UmbracoFile
+		public Umbraco.Web.Models.ImageCropDataSet UmbracoFile
 		{
-			get { return this.GetPropertyValue("umbracoFile"); }
+			get { return this.GetPropertyValue<Umbraco.Web.Models.ImageCropDataSet>("umbracoFile"); }
 		}
 
 		///<summary>
