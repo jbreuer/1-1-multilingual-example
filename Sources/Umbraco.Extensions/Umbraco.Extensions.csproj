@@ -296,6 +296,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>
