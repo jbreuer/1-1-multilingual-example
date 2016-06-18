@@ -12,7 +12,12 @@
 
     var newsDetached = Model.Content.News;
 
-    var media = Umbraco.TypedMedia(newsDetached.Media) as Image;
+    Image media = null;
+
+    if (newsDetached.Media != null)
+    {
+        media = Umbraco.TypedMedia(newsDetached.Media) as Image;
+    }
 }
 <div id="main-wrapper">
     <div id="main" class="container">
