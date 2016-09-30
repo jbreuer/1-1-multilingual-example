@@ -287,6 +287,7 @@
     <Compile Include="Controllers\UrlPreviewApiController.cs" />
     <Compile Include="CustomBootManager.cs" />
     <Compile Include="Events\UmbracoEvents.cs" />
+    <Compile Include="Extract\PropertyExtractResolver.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Models\Builder.cs">
       <Generator>UmbracoModelsBuilder</Generator>
@@ -297,6 +298,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Models\Custom\PropertyExtractBase.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>

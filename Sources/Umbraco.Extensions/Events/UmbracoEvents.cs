@@ -21,6 +21,8 @@ namespace Umbraco.Extensions.Events
     using Umbraco.Core.Publishing;
     using Umbraco.Core.Services;
     using Umbraco.Extensions.ContentFinders;
+    using Umbraco.Extensions.Extract;
+    using Umbraco.Extensions.Models.Custom;
     using Umbraco.Extensions.UrlProviders;
     using Umbraco.Web;
     using Umbraco.Web.Cache;
@@ -77,6 +79,21 @@ namespace Umbraco.Extensions.Events
         {
             var externalIndexer = (UmbracoContentIndexer)ExamineManager.Instance.IndexProviderCollection["ExternalIndexer"];
             externalIndexer.GatheringNodeData += this.ExternalIndexerGatheringContentData;
+        }
+
+        /// <summary>
+        /// The application initialized event
+        /// </summary>
+        /// <param name="umbracoApplication">
+        /// The umbraco application.
+        /// </param>
+        /// <param name="applicationContext">
+        /// The application context.
+        /// </param>
+        protected override void ApplicationInitialized(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            // Resolve all property extract classes.
+            PropertyExtractResolver.Current = new PropertyExtractResolver(PluginManager.Current.ResolveTypes<PropertyExtractBase>());
         }
 
         private void PageCacheRefresherCacheUpdated(PageCacheRefresher sender, Core.Cache.CacheRefresherEventArgs e)
