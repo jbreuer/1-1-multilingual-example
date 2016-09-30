@@ -20,16 +20,16 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace Umbraco.Extensions.Models
 {
-	/// <summary>Folder</summary>
-	[PublishedContentModel("Folder")]
-	public partial class Folder : PublishedContentModel
+	/// <summary>Search Page</summary>
+	[PublishedContentModel("umbSearchPage")]
+	public partial class UmbSearchPage : UmbMaster
 	{
 #pragma warning disable 0109 // new is redundant
-		public new const string ModelTypeAlias = "Folder";
-		public new const PublishedItemType ModelItemType = PublishedItemType.Media;
+		public new const string ModelTypeAlias = "umbSearchPage";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 #pragma warning restore 0109
 
-		public Folder(IPublishedContent content)
+		public UmbSearchPage(IPublishedContent content)
 			: base(content)
 		{ }
 
@@ -40,18 +40,9 @@ namespace Umbraco.Extensions.Models
 		}
 #pragma warning restore 0109
 
-		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Folder, TValue>> selector)
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<UmbSearchPage, TValue>> selector)
 		{
 			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
-		}
-
-		///<summary>
-		/// Contents:
-		///</summary>
-		[ImplementPropertyType("contents")]
-		public object Contents
-		{
-			get { return this.GetPropertyValue("contents"); }
 		}
 	}
 }

@@ -305,7 +305,6 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\Custom\PropertyExtractBase.cs" />
-    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>
@@ -318,6 +317,7 @@
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Image.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>
@@ -347,6 +347,9 @@
     <Compile Include="Models\UmbNewsOverview.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\UmbSearchPage.generated.cs">
+      <DependentUpon>Builder.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\UmbTextPage.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
