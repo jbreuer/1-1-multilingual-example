@@ -9,6 +9,7 @@
 namespace Umbraco.Extensions.Events
 {
     using System.IO;
+    using System.Text;
     using System.Web;
     using System.Web.Hosting;
 
@@ -21,6 +22,7 @@ namespace Umbraco.Extensions.Events
     using Umbraco.Core.Publishing;
     using Umbraco.Core.Services;
     using Umbraco.Extensions.ContentFinders;
+    using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Extract;
     using Umbraco.Extensions.Models.Custom;
     using Umbraco.Extensions.UrlProviders;
@@ -109,6 +111,14 @@ namespace Umbraco.Extensions.Events
             var content = this.UmbracoHelper.TypedContent(indexingNodeDataEventArgs.NodeId);
             if (content != null)
             {
+                foreach (var lang in ApplicationContext.Current.Services.LocalizationService.GetAllLanguages())
+                {
+                    var searhContentBuilder = new StringBuilder();
+                    content.ExtractForExamine(searhContentBuilder, lang.CultureInfo.Name);
+
+                    // Index all properties per language. For Vorto this means the properties for that language.
+                    indexingNodeDataEventArgs.Fields.Add("PageContent" + "-" + lang.CultureInfo.Name, searhContentBuilder.ToString());
+                }
             }
         }
 
