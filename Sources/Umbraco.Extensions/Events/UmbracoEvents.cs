@@ -8,21 +8,34 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Umbraco.Extensions.Events
 {
+    using System.IO;
+    using System.Web;
+    using System.Web.Hosting;
+
+    using Examine;
+
     using Umbraco.Core;
+    using Umbraco.Core.Configuration;
     using Umbraco.Core.Events;
     using Umbraco.Core.Models;
     using Umbraco.Core.Publishing;
     using Umbraco.Core.Services;
     using Umbraco.Extensions.ContentFinders;
     using Umbraco.Extensions.UrlProviders;
+    using Umbraco.Web;
     using Umbraco.Web.Cache;
     using Umbraco.Web.Routing;
+    using Umbraco.Web.Security;
+
+    using UmbracoExamine;
 
     /// <summary>
     /// The umbraco events.
     /// </summary>
     public class UmbracoEvents : ApplicationEventHandler
     {
+        private UmbracoHelper UmbracoHelper { get; set; }
+
         /// <summary>
         /// The application starting.
         /// </summary>
@@ -51,10 +64,53 @@ namespace Umbraco.Extensions.Events
             ContentFinderResolver.Current.RemoveType<ContentFinderByNiceUrl>();
         }
 
+        /// <summary>
+        /// Override for ApplicationStarted
+        /// </summary>
+        /// <param name="umbracoApplication">
+        /// Umbraco application.
+        /// </param>
+        /// <param name="applicationContext">
+        /// Umbraco application context.
+        /// </param>
+        protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            var externalIndexer = (UmbracoContentIndexer)ExamineManager.Instance.IndexProviderCollection["ExternalIndexer"];
+            externalIndexer.GatheringNodeData += this.ExternalIndexerGatheringContentData;
+        }
+
         private void PageCacheRefresherCacheUpdated(PageCacheRefresher sender, Core.Cache.CacheRefresherEventArgs e)
         {
             // After content has been updated clear content finder cache.
             ApplicationContext.Current.ApplicationCache.RuntimeCache.ClearCacheByKeySearch("MultilingualContentFinder");
+        }
+
+        private void ExternalIndexerGatheringContentData(object sender, IndexingNodeDataEventArgs indexingNodeDataEventArgs)
+        {
+            this.EnsureUmbracoContext();
+
+            var content = this.UmbracoHelper.TypedContent(indexingNodeDataEventArgs.NodeId);
+            if (content != null)
+            {
+            }
+        }
+
+        private void EnsureUmbracoContext()
+        {
+            if (UmbracoContext.Current == null)
+            {
+                var dummyHttpContext = new HttpContextWrapper(new HttpContext(new SimpleWorkerRequest(string.Empty, string.Empty, new StringWriter())));
+
+                this.UmbracoHelper =
+                    new UmbracoHelper(
+                        UmbracoContext.EnsureContext(
+                            dummyHttpContext,
+                            ApplicationContext.Current,
+                            new WebSecurity(dummyHttpContext, ApplicationContext.Current),
+                            UmbracoConfig.For.UmbracoSettings(),
+                            UrlProviderResolver.Current.Providers,
+                            false));
+            }
         }
     }
 }
