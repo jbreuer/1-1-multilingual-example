@@ -20,41 +20,44 @@
                         </form>
 
                         @{
-                            var q = Request.QueryString["q"];
-                            
-                            if (!string.IsNullOrEmpty(q))
-                            {   
-                                var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+                            using (UmbracoContext.Application.ProfilingLogger.TraceDuration<UmbracoTemplatePage>("Start search action", "Completed search action"))
+                            {
+                                var q = Request.QueryString["q"];
 
-                                var searcher = ExamineManager.Instance.SearchProviderCollection["ExternalSearcher"];
-
-                                var searchCriteria = searcher.CreateSearchCriteria();
-
-                                // All page content is indexed per language. Search the content for the current language.
-                                var query = searchCriteria.Field("PageContent-" + currentCulture, q.ToLowerInvariant());
-        
-                                var searchResults = searcher.Search(query.Compile()).OrderByDescending(x => x.Score);
-
-                                if (searchResults.Any())
+                                if (!string.IsNullOrEmpty(q))
                                 {
-                                    <ul>
-                                        @foreach (var item in searchResults)
-                                        {
-                                            var content = Umbraco.TypedContent(item.Fields["id"]);
-                                            if (content != null)
+                                    var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+
+                                    var searcher = ExamineManager.Instance.SearchProviderCollection["ExternalSearcher"];
+
+                                    var searchCriteria = searcher.CreateSearchCriteria();
+
+                                    // All page content is indexed per language. Search the content for the current language.
+                                    var query = searchCriteria.Field("PageContent-" + currentCulture, q.ToLowerInvariant());
+
+                                    var searchResults = searcher.Search(query.Compile()).OrderByDescending(x => x.Score);
+
+                                    if (searchResults.Any())
+                                    {
+                                        <ul>
+                                            @foreach (var item in searchResults)
                                             {
-                                                <li>
-                                                    <a href="@content.Url">
-                                                        @content.Name
-                                                        @if (content is UmbNewsItem)
-                                                        {
-                                                            <text> - @(((UmbNewsItem)content).News.Subheader)</text>
-                                                        }
-                                                    </a>
-                                                </li>
+                                                var content = Umbraco.TypedContent(item.Fields["id"]);
+                                                if (content != null)
+                                                {
+                                                    <li>
+                                                        <a href="@content.Url">
+                                                            @content.Name
+                                                            @if (content is UmbNewsItem)
+                                                            {
+                                                                <text> - @(((UmbNewsItem)content).News.Subheader)</text>
+                                                            }
+                                                        </a>
+                                                    </li>
+                                                }
                                             }
-                                        }
-                                    </ul>
+                                        </ul>
+                                    }
                                 }
                             }
                         }                    
