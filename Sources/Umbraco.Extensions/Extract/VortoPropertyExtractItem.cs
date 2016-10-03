@@ -54,11 +54,13 @@ namespace Umbraco.Extensions.Extract
             string alias, 
             string language = null)
         {
-            var vortoContent = content.GetVortoValue<IPublishedContent>(alias, language);
+            //var vortoContent = content.GetVortoValue<IPublishedContent>(alias, language);
+            var vortoContents = content.GetVortoValue<List<IPublishedContent>>(alias, language);
 
             if (vortoContent != null)
             {
-                vortoContent.ExtractForExamine(extractedContent, language);
+                //vortoContent.ExtractForExamine(extractedContent, language);
+                vortoContents.ForEach(x => x.ExtractForExamine(extractedContent, language));
             }
             else
             {
