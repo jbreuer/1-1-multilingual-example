@@ -117,6 +117,7 @@ namespace Umbraco.Extensions.Events
                     content.ExtractForExamine(searhContentBuilder, lang.CultureInfo.Name);
 
                     // Index all properties per language. For Vorto this means the properties for that language.
+                    // If a property is not multilingual it will be added to all languages.
                     indexingNodeDataEventArgs.Fields.Add("PageContent" + "-" + lang.CultureInfo.Name, searhContentBuilder.ToString());
                 }
             }

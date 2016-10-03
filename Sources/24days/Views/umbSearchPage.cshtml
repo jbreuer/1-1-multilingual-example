@@ -1,7 +1,67 @@
-﻿@using Umbraco.Extensions.Models
+﻿@using System.Threading
+@using Umbraco.Extensions.Models
 @inherits UmbracoTemplatePage<UmbSearchPage>
 @{
 	Layout = "umbLayout.cshtml";
 }
 
-<p>@Umbraco.GetDictionaryValue("SearchTitle")</p>
+<div id="main-wrapper">
+    <div id="main" class="container">
+        <div class="row">
+            <div class="12u skel-cell-mainContent">
+                <div class="content content-left">
+                    <!-- Content -->
+                    <article class="is-page-content">
+                        <h2>@Umbraco.GetDictionaryValue("SearchTitle")</h2>
+
+                        <form method="get">
+                            <input type="text" name="q" value="@Request.QueryString["q"]">
+                            <input type="submit" value="search">
+                        </form>
+
+                        @{
+                            var q = Request.QueryString["q"];
+                            
+                            if (!string.IsNullOrEmpty(q))
+                            {   
+                                var currentCulture = Thread.CurrentThread.CurrentCulture.ToString();
+
+                                var searcher = ExamineManager.Instance.SearchProviderCollection["ExternalSearcher"];
+
+                                var searchCriteria = searcher.CreateSearchCriteria();
+
+                                // All page content is indexed per language. Search the content for the current language.
+                                var query = searchCriteria.Field("PageContent-" + currentCulture, q.ToLowerInvariant());
+        
+                                var searchResults = searcher.Search(query.Compile()).OrderByDescending(x => x.Score);
+
+                                if (searchResults.Any())
+                                {
+                                    <ul>
+                                        @foreach (var item in searchResults)
+                                        {
+                                            var content = Umbraco.TypedContent(item.Fields["id"]);
+                                            if (content != null)
+                                            {
+                                                <li>
+                                                    <a href="@content.Url">
+                                                        @content.Name
+                                                        @if (content is UmbNewsItem)
+                                                        {
+                                                            <text> - @(((UmbNewsItem)content).News.Subheader)</text>
+                                                        }
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                }
+                            }
+                        }                    
+                    </article>
+                    <!-- /Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
