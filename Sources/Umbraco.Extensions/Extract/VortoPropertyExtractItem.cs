@@ -65,7 +65,7 @@ namespace Umbraco.Extensions.Extract
                 var vortoString = content.GetVortoValue<string>(alias, language);
                 if (!string.IsNullOrEmpty(vortoString))
                 {
-                    extractedContent.Append(" " + vortoString);
+                    extractedContent.Append(" " + vortoString.StripHtml().StripNewLines());
                 }
             }
         }
