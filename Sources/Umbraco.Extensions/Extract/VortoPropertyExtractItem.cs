@@ -15,6 +15,7 @@ namespace Umbraco.Extensions.Extract
 
     using Our.Umbraco.Vorto.Extensions;
 
+    using Umbraco.Core;
     using Umbraco.Core.Models;
     using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Models.Custom;
@@ -74,7 +75,7 @@ namespace Umbraco.Extensions.Extract
                     var vortoString = content.GetVortoValue<string>(alias, language);
                     if (!string.IsNullOrEmpty(vortoString))
                     {
-                        extractedContent.Append(" " + vortoString);
+                        extractedContent.Append(" " + vortoString.StripHtml().StripNewLines());
                     }
                 }
             }
