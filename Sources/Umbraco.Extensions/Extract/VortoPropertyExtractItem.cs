@@ -9,10 +9,13 @@
 
 namespace Umbraco.Extensions.Extract
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     using Our.Umbraco.Vorto.Extensions;
 
+    using Umbraco.Core;
     using Umbraco.Core.Models;
     using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Models.Custom;
@@ -55,17 +58,25 @@ namespace Umbraco.Extensions.Extract
             string language = null)
         {
             var vortoContent = content.GetVortoValue<IPublishedContent>(alias, language);
-
+            
             if (vortoContent != null)
             {
                 vortoContent.ExtractForExamine(extractedContent, language);
             }
             else
             {
-                var vortoString = content.GetVortoValue<string>(alias, language);
-                if (!string.IsNullOrEmpty(vortoString))
+                var vortoContents = content.GetVortoValue<List<IPublishedContent>>(alias, language);
+                if (vortoContents != null && vortoContents.Any())
                 {
-                    extractedContent.Append(" " + vortoString);
+                    vortoContents.ForEach(x => x.ExtractForExamine(extractedContent, language));
+                }
+                else
+                {
+                    var vortoString = content.GetVortoValue<string>(alias, language);
+                    if (!string.IsNullOrEmpty(vortoString))
+                    {
+                        extractedContent.Append(" " + vortoString.StripHtml().StripNewLines());
+                    }
                 }
             }
         }
