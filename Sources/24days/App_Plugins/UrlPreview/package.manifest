@@ -9,7 +9,7 @@
         }
     ],
 	javascript: [
-		'~/App_Plugins/UrlPreview/urlpreview.interceptor.js',
+		'~/App_Plugins/Interceptors/content.interceptor.js',
         '~/App_Plugins/UrlPreview/urlpreview.controller.js',
 		'~/App_Plugins/UrlPreview/urlpreview.resource.js'
     ]

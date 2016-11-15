@@ -285,9 +285,11 @@
   <ItemGroup>
     <Compile Include="ContentFinders\MultilingualContentFinder.cs" />
     <Compile Include="Controllers\UrlPreviewApiController.cs" />
+    <Compile Include="Controllers\UrlPreviewController.cs" />
     <Compile Include="CustomBootManager.cs" />
     <Compile Include="Events\UmbracoEvents.cs" />
     <Compile Include="Extensions\ExtractExtensions.cs" />
+    <Compile Include="Extensions\HttpCookieExtensions.cs" />
     <Compile Include="Extract\NestedContentExtractItem.cs" />
     <Compile Include="Extract\PropertyExtractResolver.cs" />
     <Compile Include="Extract\RichTextPropertyExtractItem.cs" />
@@ -305,6 +307,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\Custom\PropertyExtractBase.cs" />
+    <Compile Include="Models\Custom\UrlPreview.cs" />
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>
       <SubType>Code</SubType>

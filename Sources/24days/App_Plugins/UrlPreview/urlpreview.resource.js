@@ -4,7 +4,12 @@ angular.module('umbraco.resources').factory('urlPreviewResource',
         //the factory object returned
         return {
             getUrls: function (id) {
-                return $http.get("backoffice/UrlPreview/UrlPreviewApi/GetUrls?id=" + id);
+                // Get the URLs from the frontend so we can also get URLs that are in preview.
+                return $http.get("/umbraco/surface/urlpreview/geturls?id=" + id);
+            },
+            updatePreview: function () {
+                // Updating the preview happens in UmbracoAuthorizedApiController so it can only be triggered if a user is in the backoffice.
+                return $http.get("/umbraco/backoffice/api/urlpreviewapi/updatepreview");
             }
         };
     }

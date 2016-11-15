@@ -306,6 +306,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\Interceptors\content.interceptor.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.htm" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
@@ -319,7 +320,6 @@
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
     <Content Include="App_Plugins\UrlPreview\urlpreview.controller.js" />
     <Content Include="App_Plugins\UrlPreview\urlpreview.html" />
-    <Content Include="App_Plugins\UrlPreview\urlpreview.interceptor.js" />
     <Content Include="App_Plugins\UrlPreview\urlpreview.resource.js" />
     <Content Include="App_Plugins\Vorto\css\vorto.css" />
     <Content Include="App_Plugins\Vorto\js\jquery.hoverIntent.minified.js" />
@@ -2900,7 +2900,9 @@
     <Content Include="Views\Partials\Grid\Editors\Base.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
-    <Content Include="media\Web.config" />
+    <Content Include="media\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\UrlRewriting.config" />
     <Content Include="Config\umbracoSettings.config" />
     <Content Include="Config\trees.config" />
