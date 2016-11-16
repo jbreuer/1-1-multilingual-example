@@ -53,6 +53,7 @@ namespace Umbraco.Extensions.Events
         {
             // Events.
             PageCacheRefresher.CacheUpdated += this.PageCacheRefresherCacheUpdated;
+            ContentService.Saved += this.ContentServiceSaved;
 
             // With the url providers we can change node urls.
             UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, MultilingualUrlProvider>();
@@ -101,7 +102,14 @@ namespace Umbraco.Extensions.Events
         private void PageCacheRefresherCacheUpdated(PageCacheRefresher sender, Core.Cache.CacheRefresherEventArgs e)
         {
             // After content has been updated clear content finder cache.
-            ApplicationContext.Current.ApplicationCache.RuntimeCache.ClearCacheByKeySearch("MultilingualContentFinder");
+            this.ClearCache();
+        }
+
+        private void ContentServiceSaved(IContentService sender, SaveEventArgs<IContent> e)
+        {
+            // The cms should be on a separate server. So in the save event the cache will only be cleared on that server.
+            // This will make the preview update to date after saving.
+            this.ClearCache();
         }
 
         private void ExternalIndexerGatheringContentData(object sender, IndexingNodeDataEventArgs indexingNodeDataEventArgs)
@@ -139,6 +147,12 @@ namespace Umbraco.Extensions.Events
                             UrlProviderResolver.Current.Providers,
                             false));
             }
+        }
+
+        private void ClearCache()
+        {
+            // clear our runtime cache
+            ApplicationContext.Current.ApplicationCache.RuntimeCache.ClearCacheByKeySearch("MultilingualContentFinder");
         }
     }
 }
