@@ -25,9 +25,12 @@ namespace Umbraco.Extensions.Events
     using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Extract;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
     using Umbraco.Extensions.UrlProviders;
     using Umbraco.Web;
     using Umbraco.Web.Cache;
+    using Umbraco.Web.Editors;
+    using Umbraco.Web.Models.ContentEditing;
     using Umbraco.Web.Routing;
     using Umbraco.Web.Security;
 
@@ -82,6 +85,7 @@ namespace Umbraco.Extensions.Events
         {
             var externalIndexer = (UmbracoContentIndexer)ExamineManager.Instance.IndexProviderCollection["ExternalIndexer"];
             externalIndexer.GatheringNodeData += this.ExternalIndexerGatheringContentData;
+            EditorModelEventManager.SendingContentModel += this.EditorModelEventManagerSendingContentModel;
         }
 
         /// <summary>
@@ -128,6 +132,15 @@ namespace Umbraco.Extensions.Events
                     // If a property is not multilingual it will be added to all languages.
                     indexingNodeDataEventArgs.Fields.Add("PageContent" + "-" + lang.CultureInfo.Name, searhContentBuilder.ToString());
                 }
+            }
+        }
+        
+        private void EditorModelEventManagerSendingContentModel(System.Web.Http.Filters.HttpActionExecutedContext sender, EditorModelEventArgs<ContentItemDisplay> e)
+        {
+            var contentModel = e.Model;
+            if (contentModel != null)
+            {
+                contentModel.AllowPreview = false;
             }
         }
 
