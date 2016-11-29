@@ -306,6 +306,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\Extract\controller.js" />
+    <Content Include="App_Plugins\Extract\extractResource.js" />
+    <Content Include="App_Plugins\Extract\languagedropdown.directive.html" />
+    <Content Include="App_Plugins\Extract\languagedropdown.directive.js" />
+    <Content Include="App_Plugins\Extract\view.html" />
     <Content Include="App_Plugins\Interceptors\content.interceptor.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.htm" />
@@ -2920,6 +2925,7 @@
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
     <Content Include="Views\umbSearchPage.cshtml" />
+    <Content Include="App_Plugins\Extract\package.manifest" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

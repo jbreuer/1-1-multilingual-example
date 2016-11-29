@@ -15,6 +15,7 @@ namespace Umbraco.Extensions.Extract
     using Umbraco.Core.Models;
     using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
     using Umbraco.Web;
 
     /// <summary>
@@ -72,6 +73,64 @@ namespace Umbraco.Extensions.Extract
                     singleContent.ExtractForExamine(extractedContent);
                 }
             }
+        }
+
+        /// <summary>
+        /// The export.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="alias">
+        /// The alias.
+        /// </param>
+        /// <param name="sourceLanguage">
+        /// The source language.
+        /// </param>
+        /// <param name="label">
+        /// The label.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DocumentProperty"/>.
+        /// </returns>
+        public override DocumentProperty Export(IPublishedContent content, string alias, string sourceLanguage, string label = "")
+        {
+            var multipleContent = content.GetPropertyValue<IEnumerable<IPublishedContent>>(alias);
+
+            if (multipleContent != null)
+            {
+                var property = new NestedContentProperty { Alias = alias };
+
+                foreach (var publishedContent in multipleContent)
+                {
+                    property.NestedDocuments.Add(
+                        new NestedDocument
+                        {
+                            Name = publishedContent.Name,
+                            Document = publishedContent.ExtractForExport(sourceLanguage, label.RemoveAfterLast(" - "), true)
+                        });
+                }
+
+                return property;
+            }
+
+            var singleContent = content.GetPropertyValue<IPublishedContent>(alias);
+
+            if (singleContent != null)
+            {
+                return new SingleNestedContentProperty
+                {
+                    Alias = alias,
+                    Label = label,
+                    NestedDocument = new NestedDocument
+                    {
+                        Name = singleContent.Name,
+                        Document = singleContent.ExtractForExport(sourceLanguage)
+                    }
+                };
+            }
+
+            return null;
         }
     }
 }

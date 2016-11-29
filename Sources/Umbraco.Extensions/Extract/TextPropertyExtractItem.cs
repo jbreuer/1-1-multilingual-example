@@ -11,6 +11,7 @@ namespace Umbraco.Extensions.Extract
 {
     using Umbraco.Core;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
 
     /// <summary>
     /// The text property extract item.

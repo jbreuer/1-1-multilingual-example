@@ -15,6 +15,7 @@ namespace Umbraco.Extensions.Extract
 
     using Umbraco.Core.ObjectResolution;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
 
     /// <summary>
     /// The property extract resolver.

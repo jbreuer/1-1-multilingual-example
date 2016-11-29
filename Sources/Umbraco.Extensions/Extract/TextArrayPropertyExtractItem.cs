@@ -14,7 +14,9 @@ namespace Umbraco.Extensions.Extract
 
     using Umbraco.Core;
     using Umbraco.Core.Models;
+    using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
     using Umbraco.Web;
 
     /// <summary>
@@ -67,6 +69,41 @@ namespace Umbraco.Extensions.Extract
             {
                 extractedContent.Append(" " + string.Join(" ", list));
             }
+        }
+
+        /// <summary>
+        /// The export.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="alias">
+        /// The alias.
+        /// </param>
+        /// <param name="sourceLanguage">
+        /// The source language.
+        /// </param>
+        /// <param name="label">
+        /// The label.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DocumentProperty"/>.
+        /// </returns>
+        public override DocumentProperty Export(
+            IPublishedContent content,
+            string alias,
+            string sourceLanguage,
+            string label = "")
+        {
+            var values = content.GetPropertyValue<IEnumerable<string>>(alias);
+            var list = new List<string>();
+
+            if (values != null)
+            {
+                list = values.Where(x => x != string.Empty).Select(x => x.RemoveInvalidXmlChars()).ToList();
+            }
+
+            return new TextArrayProperty { Alias = alias, Label = label, Values = list };
         }
     }
 }

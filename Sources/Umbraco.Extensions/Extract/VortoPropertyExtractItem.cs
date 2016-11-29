@@ -19,6 +19,7 @@ namespace Umbraco.Extensions.Extract
     using Umbraco.Core.Models;
     using Umbraco.Extensions.Extensions;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
 
     /// <summary>
     /// The Vorto property extract item.
@@ -79,6 +80,52 @@ namespace Umbraco.Extensions.Extract
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// The export.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="alias">
+        /// The alias.
+        /// </param>
+        /// <param name="sourceLanguage">
+        /// The source language.
+        /// </param>
+        /// <param name="label">
+        /// The label.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DocumentProperty"/>.
+        /// </returns>
+        public override DocumentProperty Export(IPublishedContent content, string alias, string sourceLanguage, string label = "")
+        {
+            var vortoContent = content.GetVortoValue<IPublishedContent>(alias, sourceLanguage);
+
+            if (vortoContent != null)
+            {
+                return new VortoContentProperty
+                {
+                    Alias = alias,
+                    Document = vortoContent.ExtractForExport(sourceLanguage, label.RemoveAfterLast(" - "), true)
+                };
+            }
+
+            var vortoString = content.GetVortoValue<string>(alias, sourceLanguage);
+
+            if (vortoString != null)
+            {
+                return new VortoStringProperty
+                {
+                    Alias = alias,
+                    Label = label,
+                    Value = vortoString.RemoveInvalidXmlChars()
+                };
+            }
+
+            return null;
         }
     }
 }

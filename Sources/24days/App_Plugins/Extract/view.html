@@ -1,0 +1,21 @@
+﻿<form name="myForm" ng-submit="send()" ng-controller="Extract.MenuActionController">
+    <div class="umb-dialog-body">
+        <umb-pane>
+            <umb-control-group label="Source Language">
+                <language-dropdown ng-model="extract.sourceLanguage" />
+            </umb-control-group>
+            <umb-control-group label="Target Language">
+                <language-dropdown ng-model="extract.targetLanguage"/>
+            </umb-control-group>
+            <umb-control-group label="Include subnodes">
+                <input type="checkbox" name="includeSubNodes" ng-model="extract.includeSubNodes">
+            </umb-control-group>
+        </umb-pane>
+        <div class="umb-footer btn-toolbar umb-btn-toolbar" ng-if="extract.sourceLanguage && extract.targetLanguage">
+            <button class="btn btn-primary" type="submit" ng-disabled="sending">
+                <span ng-if="!sending">Extract</span>
+                <span ng-if="sending">Extracting...</span>
+            </button>
+        </div>
+    </div>
+</form>

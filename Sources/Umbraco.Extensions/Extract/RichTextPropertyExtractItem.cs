@@ -14,6 +14,7 @@ namespace Umbraco.Extensions.Extract
     using Umbraco.Core;
     using Umbraco.Core.Models;
     using Umbraco.Extensions.Models.Custom;
+    using Umbraco.Extensions.Models.Custom.Extract;
     using Umbraco.Web;
 
     /// <summary>

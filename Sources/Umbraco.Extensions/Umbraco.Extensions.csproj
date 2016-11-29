@@ -284,12 +284,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentFinders\MultilingualContentFinder.cs" />
+    <Compile Include="Controllers\ExtractApiController.cs" />
     <Compile Include="Controllers\UrlPreviewApiController.cs" />
     <Compile Include="Controllers\UrlPreviewController.cs" />
     <Compile Include="CustomBootManager.cs" />
     <Compile Include="Events\UmbracoEvents.cs" />
+    <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\ExtractExtensions.cs" />
     <Compile Include="Extensions\HttpCookieExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extract\ExtractMenuItem.cs" />
     <Compile Include="Extract\NestedContentExtractItem.cs" />
     <Compile Include="Extract\PropertyExtractResolver.cs" />
     <Compile Include="Extract\RichTextPropertyExtractItem.cs" />
@@ -306,7 +310,17 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Models\Custom\PropertyExtractBase.cs" />
+    <Compile Include="Models\Custom\Extract\Document.cs" />
+    <Compile Include="Models\Custom\Extract\DocumentCollection.cs" />
+    <Compile Include="Models\Custom\Extract\DocumentProperty.cs" />
+    <Compile Include="Models\Custom\Extract\NestedContentProperty.cs" />
+    <Compile Include="Models\Custom\Extract\NestedDocument.cs" />
+    <Compile Include="Models\Custom\Extract\PropertyExtractBase.cs" />
+    <Compile Include="Models\Custom\Extract\SingleNestedContentProperty.cs" />
+    <Compile Include="Models\Custom\Extract\TextArrayProperty.cs" />
+    <Compile Include="Models\Custom\Extract\TextProperty.cs" />
+    <Compile Include="Models\Custom\Extract\VortoContentProperty.cs" />
+    <Compile Include="Models\Custom\Extract\VortoStringProperty.cs" />
     <Compile Include="Models\Custom\UrlPreview.cs" />
     <Compile Include="Models\Detached.generated.cs">
       <DependentUpon>Builder.cs</DependentUpon>

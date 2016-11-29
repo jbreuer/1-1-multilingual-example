@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyExtractBase.cs" company="Colours B.V.">
-//   © Colours B.V. 2015
-// </copyright>
-// <summary>
-//   The property extract base.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Umbraco.Extensions.Models.Custom
+﻿namespace Umbraco.Extensions.Models.Custom.Extract
 {
     using System.Linq;
     using System.Text;
 
     using Umbraco.Core.Models;
+    using Umbraco.Extensions.Extensions;
     using Umbraco.Web;
 
     /// <summary>
@@ -66,6 +58,38 @@ namespace Umbraco.Extensions.Models.Custom
             {
                 extractedContent.Append(" " + content.GetPropertyValue<string>(alias));
             }
+        }
+
+        /// <summary>
+        /// The export.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="alias">
+        /// The alias.
+        /// </param>
+        /// <param name="sourceLanguage">
+        /// The source language.
+        /// </param>
+        /// <param name="label">
+        /// The label.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DocumentProperty"/>.
+        /// </returns>
+        public virtual DocumentProperty Export(
+            IPublishedContent content,
+            string alias,
+            string sourceLanguage,
+            string label = "")
+        {
+            return new TextProperty
+            {
+                Alias = alias,
+                Label = label,
+                Value = content.GetPropertyValue<string>(alias).RemoveInvalidXmlChars()
+            };
         }
     }
 }

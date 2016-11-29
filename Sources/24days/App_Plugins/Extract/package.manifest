@@ -1,0 +1,7 @@
+﻿{       
+    javascript: [
+		'~/App_Plugins/Extract/controller.js',
+		'~/App_Plugins/Extract/languagedropdown.directive.js',
+		'~/App_Plugins/Extract/extractResource.js'	
+    ]
+}

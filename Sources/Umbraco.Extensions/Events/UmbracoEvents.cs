@@ -31,8 +31,10 @@ namespace Umbraco.Extensions.Events
     using Umbraco.Web.Cache;
     using Umbraco.Web.Editors;
     using Umbraco.Web.Models.ContentEditing;
+    using Umbraco.Web.Models.Trees;
     using Umbraco.Web.Routing;
     using Umbraco.Web.Security;
+    using Umbraco.Web.Trees;
 
     using UmbracoExamine;
 
@@ -57,6 +59,7 @@ namespace Umbraco.Extensions.Events
             // Events.
             PageCacheRefresher.CacheUpdated += this.PageCacheRefresherCacheUpdated;
             ContentService.Saved += this.ContentServiceSaved;
+            TreeControllerBase.MenuRendering += this.TreeControllerBaseMenuRendering;
 
             // With the url providers we can change node urls.
             UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, MultilingualUrlProvider>();
@@ -114,6 +117,27 @@ namespace Umbraco.Extensions.Events
             // The cms should be on a separate server. So in the save event the cache will only be cleared on that server.
             // This will make the preview update to date after saving.
             this.ClearCache();
+        }
+
+        private void TreeControllerBaseMenuRendering(TreeControllerBase sender, MenuRenderingEventArgs e)
+        {
+            if (e.Menu == null)
+            {
+                return;
+            }
+
+            if (sender.TreeAlias != "content")
+            {
+                return;
+            }
+
+            var customMenu = new MenuItem(ExtractMenuItem.Instance.Alias, "Extract");
+            customMenu.Icon = ExtractMenuItem.Instance.Icon;
+            customMenu.SeperatorBefore = true;
+
+            customMenu.LaunchDialogView("/App_Plugins/Extract/view.html", "Extract");
+
+            e.Menu.Items.Add(customMenu);
         }
 
         private void ExternalIndexerGatheringContentData(object sender, IndexingNodeDataEventArgs indexingNodeDataEventArgs)
