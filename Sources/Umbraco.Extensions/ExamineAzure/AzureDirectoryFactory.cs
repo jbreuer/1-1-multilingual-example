@@ -13,6 +13,7 @@ namespace Umbraco.Extensions.ExamineAzure
     using System.IO;
     using System.Web;
 
+    using Examine.Directory.AzureDirectory;
     using Examine.LuceneEngine.Providers;
 
     using Lucene.Net.Store;
