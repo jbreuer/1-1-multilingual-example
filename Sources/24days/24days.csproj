@@ -73,15 +73,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Examine, Version=0.1.80.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Examine.0.1.80-beta02\lib\Examine.dll</HintPath>
+      <HintPath>packages\Examine.0.1.80-beta03\lib\net45\Examine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Examine.Directory.AzureDirectory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Examine.Directory.AzureDirectory.1.0.0-beta02\lib\Examine.Directory.AzureDirectory.dll</HintPath>
+      <HintPath>packages\Examine.Directory.AzureDirectory.1.0.0-beta03\lib\Examine.Directory.AzureDirectory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Examine.Directory.Sync, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Examine.Directory.Sync.1.0.0-beta02\lib\Examine.Directory.Sync.dll</HintPath>
+      <HintPath>packages\Examine.Directory.Sync.1.0.0-beta03\lib\Examine.Directory.Sync.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
@@ -2943,7 +2943,9 @@
     <Content Include="Config\log4net.config" />
     <Content Include="Config\FileSystemProviders.config" />
     <Content Include="Config\feedProxy.config" />
-    <Content Include="Config\ExamineSettings.config" />
+    <Content Include="Config\ExamineSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\ExamineIndex.config" />
     <Content Include="Config\EmbeddedMedia.config" />
     <Content Include="Config\Dashboard.config" />
