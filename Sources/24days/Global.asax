@@ -1,2 +1,1 @@
-﻿<%@ Application Inherits="Umbraco.Extensions.Global" Language="C#" %>
-          
+﻿<%@ Application Inherits="Umbraco.Web.UmbracoApplication" Language="C#" %>
