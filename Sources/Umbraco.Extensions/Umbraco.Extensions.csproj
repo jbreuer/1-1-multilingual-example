@@ -166,8 +166,8 @@
       <HintPath>..\24days\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Our.Umbraco.NestedContent, Version=0.2.5681.29117, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\24days\packages\Our.Umbraco.NestedContent.0.2.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
+    <Reference Include="Our.Umbraco.NestedContent, Version=0.4.6286.19708, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\24days\packages\Our.Umbraco.NestedContent.0.4.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Our.Umbraco.Vorto, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -406,8 +406,8 @@
     <Content Include="App_Plugins\NestedContent\Css\nestedcontent.css" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.controllers.js" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.directives.js" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.filters.js" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.resources.js" />
-    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.services.js" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.doctypepicker.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
