@@ -42,6 +42,9 @@
             config: {},
             view: ""
         };
+        
+        if (!angular.isObject($scope.model.value))
+            $scope.model.value = {};
 
         $scope.model.value = $scope.model.value || {
             values: {},
@@ -301,8 +304,11 @@
             // Get the view path
             $scope.property.viewPath = umbPropEditorHelper.getViewPath(dataType.view);
 
+            // Get the property alias
+            var propAlias = $scope.model.propertyAlias || $scope.model.alias;
+
             // Get the current properties datatype
-            vortoResources.getDataTypeByAlias(currentSection, nodeContext.contentTypeAlias, $scope.model.alias).then(function (dataType2) {
+            vortoResources.getDataTypeByAlias(currentSection, nodeContext.contentTypeAlias, propAlias).then(function (dataType2) {
 
                 $scope.model.value.dtdGuid = dataType2.guid;
 
@@ -425,31 +431,31 @@ angular.module('umbraco.resources').factory('Our.Umbraco.Resources.Vorto.vortoRe
         return {
             getNonVortoDataTypes: function () {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetNonVortoDataTypes"),
+                    $http.get(Umbraco.Sys.ServerVariables.vorto.apiBaseUrl + "GetNonVortoDataTypes"),
                     'Failed to retrieve datatypes'
                 );
             },
             getDataTypeById: function (id) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetDataTypeById?id=" + id),
+                    $http.get(Umbraco.Sys.ServerVariables.vorto.apiBaseUrl + "GetDataTypeById?id=" + id),
                     'Failed to retrieve datatype'
                 );
             },
             getDataTypeByAlias: function (contentType, contentTypeAlias, propertyAlias) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetDataTypeByAlias?contentType=" + contentType + "&contentTypeAlias=" + contentTypeAlias + "&propertyAlias=" + propertyAlias),
+                    $http.get(Umbraco.Sys.ServerVariables.vorto.apiBaseUrl + "GetDataTypeByAlias?contentType=" + contentType + "&contentTypeAlias=" + contentTypeAlias + "&propertyAlias=" + propertyAlias),
                     'Failed to retrieve datatype'
                 );
             },
             getLanguages: function (section, id, parentId, dtdGuid) {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetLanguages?section=" + section + "&id=" + id + "&parentId=" + parentId + "&dtdGuid=" + dtdGuid),
+                    $http.get(Umbraco.Sys.ServerVariables.vorto.apiBaseUrl + "GetLanguages?section=" + section + "&id=" + id + "&parentId=" + parentId + "&dtdGuid=" + dtdGuid),
                     'Failed to retrieve languages'
                 );
             },
             getInstalledLanguages: function () {
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetInstalledLanguages"),
+                    $http.get(Umbraco.Sys.ServerVariables.vorto.apiBaseUrl + "GetInstalledLanguages"),
                     'Failed to retrieve languages'
                 );
             }
