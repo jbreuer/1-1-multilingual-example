@@ -514,7 +514,7 @@ angular.module('umbraco.services')
             return url;
         }
 
-        var rnd = Umbraco.Sys.ServerVariables.application.version + "." + Umbraco.Sys.ServerVariables.application.cdf;
+        var rnd = Umbraco.Sys.ServerVariables.application.cacheBuster;
         var _op = (url.indexOf("?") > 0) ? "&" : "?";
         url = url + _op + "umb__rnd=" + rnd;
         return url;
@@ -5067,6 +5067,28 @@ function mediaHelper(umbRequestHelper) {
 
            return newFileTypesArray.join(",");
 
+        },
+
+        /**
+         * @ngdoc function
+         * @name umbraco.services.mediaHelper#getFileExtension
+         * @methodOf umbraco.services.mediaHelper
+         * @function
+         *
+         * @description
+         * Returns file extension
+         *
+         * @param {string} filePath File path, ex /media/1234/my-image.jpg
+         */
+        getFileExtension: function(filePath) {
+
+            if (!filePath) {
+                return false;
+            }
+
+            var lowered = filePath.toLowerCase();
+            var ext = lowered.substr(lowered.lastIndexOf(".") + 1);
+            return ext;
         }
         
     };
@@ -8852,15 +8874,15 @@ function umbRequestHelper($http, $q, umbDataFormatter, angularHelper, dialogServ
          * @description
          * This returns a promise with an underlying http call, it is a helper method to reduce
          *  the amount of duplicate code needed to query http resources and automatically handle any 
-         *  500 Http server errors. 
+         *  Http errors. See /docs/source/using-promises-resources.md
          *
-         * @param {object} opts A mixed object which can either be a `string` representing the error message to be
-         *   returned OR an `object` containing either:
+         * @param {object} opts A mixed object which can either be a string representing the error message to be
+         *   returned OR an object containing either:
          *     { success: successCallback, errorMsg: errorMessage }
          *          OR
          *     { success: successCallback, error: errorCallback }
-         *   In both of the above, the successCallback must accept these parameters: `data`, `status`, `headers`, `config`
-         *   If using the errorCallback it must accept these parameters: `data`, `status`, `headers`, `config`
+         *   In both of the above, the successCallback must accept these parameters: data, status, headers, config
+         *   If using the errorCallback it must accept these parameters: data, status, headers, config
          *   The success callback must return the data which will be resolved by the deferred object.
          *   The error callback must return an object containing: {errorMsg: errorMessage, data: originalData, status: status }
          */

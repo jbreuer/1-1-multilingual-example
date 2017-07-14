@@ -2207,7 +2207,8 @@ Use this directive to construct a header inside the main editor window.
                 description: "=",
                 hideDescription: "@",
                 descriptionLocked: "@",
-                navigation: "="
+                navigation: "=",
+                key: "="
             },
             link: link
         };
@@ -9540,25 +9541,42 @@ Use this directive to generate a thumbnail grid of media items.
             }
 
             function setItemData(item) {
-                item.isFolder = !mediaHelper.hasFilePropertyType(item);
+
+                // check if item is a folder
+                if(item.image) {
+                    // if is has an image path, it is not a folder
+                    item.isFolder = false;
+                } else {
+                    item.isFolder = !mediaHelper.hasFilePropertyType(item);
+                }
+
                 if (!item.isFolder) {
-                    item.thumbnail = mediaHelper.resolveFile(item, true);
-                    item.image = mediaHelper.resolveFile(item, false);
+                    
+                    // handle entity
+                    if(item.image) {
+                        item.thumbnail = mediaHelper.resolveFileFromEntity(item, true);
+                        item.extension = mediaHelper.getFileExtension(item.image);
+                    // handle full media object
+                    } else {
+                        item.thumbnail = mediaHelper.resolveFile(item, true);
+                        item.image = mediaHelper.resolveFile(item, false);
+                        
+                        var fileProp = _.find(item.properties, function (v) {
+                            return (v.alias === "umbracoFile");
+                        });
 
-                    var fileProp = _.find(item.properties, function (v) {
-                        return (v.alias === "umbracoFile");
-                    });
+                        if (fileProp && fileProp.value) {
+                            item.file = fileProp.value;
+                        }
 
-                    if (fileProp && fileProp.value) {
-                        item.file = fileProp.value;
-                    }
+                        var extensionProp = _.find(item.properties, function (v) {
+                            return (v.alias === "umbracoExtension");
+                        });
 
-                    var extensionProp = _.find(item.properties, function (v) {
-                        return (v.alias === "umbracoExtension");
-                    });
+                        if (extensionProp && extensionProp.value) {
+                            item.extension = extensionProp.value;
+                        }
 
-                    if (extensionProp && extensionProp.value) {
-                        item.extension = extensionProp.value;
                     }
                 }
             }
@@ -10135,7 +10153,7 @@ Use this directive to generate a pagination.
 (function() {
    'use strict';
 
-   function PaginationDirective() {
+   function PaginationDirective(localizationService) {
 
       function link(scope, el, attr, ctrl) {
 
@@ -10172,12 +10190,12 @@ Use this directive to generate a pagination.
 
                 //now, if the start is greater than 0 then '1' will not be displayed, so do the elipses thing
                 if (start > 0) {
-                    scope.pagination.unshift({ name: "First", val: 1, isActive: false }, {val: "...",isActive: false});
+                    scope.pagination.unshift({ name: localizationService.localize("general_first"), val: 1, isActive: false }, {val: "...",isActive: false});
                 }
 
                 //same for the end
                 if (start < maxIndex) {
-                    scope.pagination.push({ val: "...", isActive: false }, { name: "Last", val: scope.totalPages, isActive: false });
+                    scope.pagination.push({ val: "...", isActive: false }, { name: localizationService.localize("general_last"), val: scope.totalPages, isActive: false });
                 }
             }
 
