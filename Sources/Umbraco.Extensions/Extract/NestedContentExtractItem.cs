@@ -30,7 +30,7 @@ namespace Umbraco.Extensions.Extract
         {
             get
             {
-                return new[] { "Our.Umbraco.NestedContent" };
+                return new[] { "Umbraco.NestedContent" };
             }
         }
 

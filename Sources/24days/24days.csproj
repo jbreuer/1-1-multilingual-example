@@ -175,10 +175,6 @@
       <HintPath>packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Our.Umbraco.NestedContent, Version=0.4.6286.19708, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Our.Umbraco.NestedContent.0.4.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Our.Umbraco.Vorto, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Our.Umbraco.Vorto.1.5.3\lib\net45\Our.Umbraco.Vorto.dll</HintPath>
       <Private>True</Private>
@@ -334,14 +330,6 @@
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.htm" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
-    <Content Include="App_Plugins\NestedContent\Css\nestedcontent.css" />
-    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.controllers.js" />
-    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.directives.js" />
-    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.filters.js" />
-    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.resources.js" />
-    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.doctypepicker.html" />
-    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
-    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
     <Content Include="App_Plugins\UrlPreview\urlpreview.controller.js" />
     <Content Include="App_Plugins\UrlPreview\urlpreview.html" />
     <Content Include="App_Plugins\UrlPreview\urlpreview.resource.js" />
@@ -2920,7 +2908,6 @@
     <Content Include="Config\imageprocessor\processing.config" />
     <Content Include="Config\imageprocessor\cache.config" />
     <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
-    <Content Include="App_Plugins\NestedContent\package.manifest" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Media.cshtml" />
