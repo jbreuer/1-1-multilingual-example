@@ -8,9 +8,7 @@
     'Our.Umbraco.Resources.Vorto.vortoResources',
     'Our.Umbraco.Services.Vorto.vortoLocalStorageService',
     function ($scope, $rootScope, appState, editorState, formHelper, umbPropEditorHelper, vortoResources, localStorageService) {
-
-        var currentSection = appState.getSectionState("currentSection");
-
+			
         // Get node context
         // DTGE/NC expose the context on the scope
         // to avoid overwriting the editorState
@@ -27,6 +25,7 @@
 
         $scope.languages = [];
         $scope.pinnedLanguages = [];
+        $scope.filledInLanguages = [];
         $scope.$rootScope = $rootScope;
 
         $scope.currentLanguage = undefined;
@@ -37,14 +36,15 @@
         $scope.sync = !_.contains(cookieUnsyncedProps, $scope.model.id);
 
         $scope.model.hideLabel = $scope.model.config.hideLabel == 1;
+        $scope.model.showCheckMark = $scope.model.config.showFilledLanguages == 1;
 
         $scope.property = {
             config: {},
             view: ""
         };
-        
+
         if (!angular.isObject($scope.model.value))
-            $scope.model.value = {};
+            $scope.model.value = undefined;
 
         $scope.model.value = $scope.model.value || {
             values: {},
@@ -131,6 +131,14 @@
             }
         };
 
+        $scope.isFilledIn = function (language) {
+            if (!$scope.model.showCheckMark) return;
+            if (language == undefined) return;
+            return _.find($scope.filledInLanguages, function (itm) {
+                return itm.isoCode == language.isoCode;
+            });
+        };
+
         $scope.isPinnable = function (language) {
             return $scope.currentLanguage.isoCode != language.isoCode && !_.find($scope.pinnedLanguages, function (itm) {
                 return itm.isoCode == language.isoCode;
@@ -173,6 +181,10 @@
                 $scope.$broadcast("vortoSyncLanguageValue", { language: $scope.realActiveLanguage.isoCode });
             }
             $scope.realActiveLanguage = $scope.activeLanguage;
+
+            // When the language changes, check for filled in languages again
+            // as the editor may have filled the previous language in
+            detectFilledInLanguages();
         });
 
         $scope.$watch("sync", function (shouldSync) {
@@ -245,6 +257,16 @@
             }
         }
 
+        var detectFilledInLanguages = function () {
+            $scope.filledInLanguages = [];
+            _.each($scope.languages, function (language) {
+                if (language.isoCode in $scope.model.value.values &&
+                    $scope.model.value.values[language.isoCode]) {
+                    $scope.filledInLanguages.push(language);
+                }
+            });
+        }
+
         var validateProperty = function () {
             // Validate value changes
             if ($scope.model.validation.mandatory) {
@@ -295,6 +317,25 @@
             }
         }
 
+        var getCurrentSection = function() {
+        	var currentSection = appState.getSectionState("currentSection");
+
+            // The newer back office now shows a preview of property editors in the doc type editor
+            // so the current section will always be settings. If we are in the settings section
+            // then look for why type of content editor we are and set the current section accordingly.
+            // NB: Member types is normally in the members section so that should actually work.
+        	if (currentSection === "settings") {
+        		if (window.location.hash.match(new RegExp("mediaTypes"))) {
+        			currentSection = "media";
+        		}
+        		else if (window.location.hash.match(new RegExp("documentTypes"))) {
+        			currentSection = "content";
+        		}
+        	}
+
+	        return currentSection;
+        }
+
         // Load the datatype
         vortoResources.getDataTypeById($scope.model.config.dataType.guid).then(function (dataType) {
 
@@ -307,8 +348,14 @@
             // Get the property alias
             var propAlias = $scope.model.propertyAlias || $scope.model.alias;
 
-            // Get the current properties datatype
-            vortoResources.getDataTypeByAlias(currentSection, nodeContext.contentTypeAlias, propAlias).then(function (dataType2) {
+        	// Get the content type alias
+            var contentTypeAlias = nodeContext.contentTypeAlias || nodeContext.alias;
+
+            // Work out what section we are in
+			var currentSection = getCurrentSection();
+
+        	// Get the current properties datatype
+            vortoResources.getDataTypeByAlias(currentSection, contentTypeAlias, propAlias).then(function (dataType2) {
 
                 $scope.model.value.dtdGuid = dataType2.guid;
 
@@ -335,6 +382,8 @@
                         reSync();
 
                         validateProperty();
+
+                        detectFilledInLanguages();
                     });
             });
         });
@@ -395,11 +444,13 @@ angular.module("umbraco.directives").directive('vortoProperty',
             scope.model.config = angular.copy(scope.config);
 
             scope.model.alias = scope.propertyAlias + "." + scope.language;
-            scope.model.value = scope.value.values[scope.language];
+            scope.model.value = scope.value.values ? scope.value.values[scope.language] : undefined;
 
             var unsubscribe = scope.$on("vortoSyncLanguageValue", function (ev, args) {
                 if (args.language === scope.language) {
                     scope.$broadcast("formSubmitting", { scope: scope });
+                    if (!scope.value.values)
+                        scope.value.values = {};
                     scope.value.values[scope.language] = scope.model.value;
                 }
             });
@@ -414,7 +465,7 @@ angular.module("umbraco.directives").directive('vortoProperty',
             restrict: "E",
             rep1ace: true,
             link: link,
-            template: '<div ng-include="propertyEditorView"></div>', 
+            template: '<div ng-include="propertyEditorView"></div>',
             scope: {
                 propertyEditorView: '=view',
                 config: '=',
